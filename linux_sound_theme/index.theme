@@ -1,0 +1,8 @@
+[Sound Theme]
+Name=Finn Theme
+Comment=Finn theme with hololive sounds
+Directories=stereo
+Example=theme-demo
+
+[stereo]
+OutputProfile=stereo
