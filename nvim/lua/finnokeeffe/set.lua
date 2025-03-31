@@ -27,3 +27,6 @@ vim.opt.scrolloff = 8
 
  -- use system clipboard instead of vim clipboard system
  vim.opt.clipboard = "unnamedplus"
+
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "both"
