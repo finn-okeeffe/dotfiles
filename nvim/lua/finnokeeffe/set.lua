@@ -28,5 +28,10 @@ vim.opt.scrolloff = 8
  -- use system clipboard instead of vim clipboard system
  vim.opt.clipboard = "unnamedplus"
 
+-- highlighted line where cusor is
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "both"
+
+-- wrap text
+vim.opt.wrap = true
+vim.opt.linebreak = true
