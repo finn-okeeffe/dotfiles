@@ -1,0 +1,47 @@
+local wezterm = require("wezterm")
+local config = wezterm.config_builder()
+
+wezterm.on('toggle-background', function(window, pane)
+    local overrides = window.get_config_overrides() or {}
+    if not overrides.window_backgroud_image then
+        overrides.window_backgroud_image = "/home/finnokeeffe/git/dotfiles/wezterm/assets/gruvbox-wallpaper-cave.png"
+    else
+        overrides.window_backgroud_image = nil
+    end
+    window:set_config_overrides(overrides)
+end)
+
+-- Font settings
+config.font_size = 16
+config.font = wezterm.font("FiraMono Nerd Font")
+
+-- Colors
+config.color_scheme = 'GruvboxDarkHard'
+
+-- keybinds
+config.leader = {
+    key="j",
+    mods="CTRL",
+    timeout_milliseconds=500
+}
+config.keys = {
+    {
+        key="R",
+        mods="LEADER",
+        action=wezterm.action.ReloadConfiguration,
+    },
+    {
+        key="b",
+        mods="CTRL",
+        action = wezterm.action.EmitEvent 'toggle-background',
+    }
+}
+
+-- Remove top bars
+config.window_decorations = "RESIZE" -- disable title bar
+config.hide_tab_bar_if_only_one_tab = true
+
+
+
+
+return config
