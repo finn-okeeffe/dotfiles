@@ -84,6 +84,10 @@ config.keys = {
         mods="CTRL|SHIFT",
         action=wezterm.action.ScrollByLine(1),
     },
+    {
+        key="F11",
+        action=wezterm.action.ToggleFullScreen,
+    },
 }
 
 -- Remove top bars
