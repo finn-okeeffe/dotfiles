@@ -13,7 +13,7 @@ end)
 
 -- Font settings
 config.font_size = 16
-config.font = wezterm.font("FiraMono Nerd Font")
+config.font = wezterm.font("FiraCode Nerd Font Mono")
 
 -- Colors
 config.color_scheme = 'GruvboxDarkHard'
@@ -41,6 +41,15 @@ config.keys = {
 config.window_decorations = "RESIZE" -- disable title bar
 config.hide_tab_bar_if_only_one_tab = true
 
+
+-- =========================
+-- Windows specific settings
+-- =========================
+
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+    -- Launch in powershell
+    config.default_prog = {'powershell.exe'}
+end
 
 
 
