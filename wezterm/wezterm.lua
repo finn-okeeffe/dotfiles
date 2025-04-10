@@ -34,7 +34,56 @@ config.keys = {
         key="b",
         mods="CTRL",
         action = wezterm.action.EmitEvent 'toggle-background',
-    }
+    },
+    {
+        key="_",
+        mods="ALT|SHIFT",
+        action=wezterm.action.SplitPane {
+            direction="Down"
+        }
+    },
+    {
+        key="+",
+        mods="ALT|SHIFT",
+        action=wezterm.action.SplitPane {
+            direction="Right"
+        }
+    },
+    {
+        key="LeftArrow",
+        mods="ALT",
+        action=wezterm.action.ActivatePaneDirection "Left",
+    },
+    {
+        key="RightArrow",
+        mods="ALT",
+        action=wezterm.action.ActivatePaneDirection "Right",
+    },
+    {
+        key="UpArrow",
+        mods="ALT",
+        action=wezterm.action.ActivatePaneDirection "Up",
+    },
+    {
+        key="DownArrow",
+        mods="ALT",
+        action=wezterm.action.ActivatePaneDirection "Down",
+    },
+    {
+        key="w",
+        mods="CTRL",
+        action = wezterm.action.CloseCurrentPane { confirm = true},
+    },
+    {
+        key="UpArrow",
+        mods="CTRL|SHIFT",
+        action=wezterm.action.ScrollByLine(-1),
+    },
+    {
+        key="DownArrow",
+        mods="CTRL|SHIFT",
+        action=wezterm.action.ScrollByLine(1),
+    },
 }
 
 -- Remove top bars
