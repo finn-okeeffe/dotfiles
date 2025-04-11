@@ -1,16 +1,25 @@
 local wezterm = require("wezterm")
 local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 local config = wezterm.config_builder()
+local assets = require("assets")
 
 wezterm.on('toggle-background', function(window, pane)
     local overrides = window.get_config_overrides() or {}
     if not overrides.window_backgroud_image then
-        overrides.window_backgroud_image = "/home/finnokeeffe/git/dotfiles/wezterm/assets/gruvbox-wallpaper-cave.png"
-
+        overrides.window_backgroud_image = assets.wallpaper_cave
+    else
         overrides.window_backgroud_image = nil
     end
     window:set_config_overrides(overrides)
 end)
+
+config.background = {{
+    source={File=assets.wallpaper_cave,},
+    height="Contain",
+    width="100%",
+    horizontal_align="Center",
+}}
+
 
 -- Font settings
 config.font_size = 16
