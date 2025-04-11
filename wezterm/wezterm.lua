@@ -19,6 +19,12 @@ config.font = wezterm.font("FiraCode Nerd Font Mono")
 -- Colors
 config.color_scheme = 'GruvboxDarkHard'
 
+-- inactive pane styling
+config.inactive_pane_hsb = {
+    saturation = 0.0,
+    brightness = 0.4,
+}
+
 -- keybinds
 config.leader = {
     key="j",
