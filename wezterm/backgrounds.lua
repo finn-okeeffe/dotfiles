@@ -1,31 +1,27 @@
 local assets = require("assets")
-
-local backgrounds_list = {
-    {
-        source={File=assets.wallpaper_cave,},
-        height="Contain",
-        width="Contain",
-        horizontal_align="Center",
-    },
-    {
-        source={Color="#FFFFFF"},
-        opacity=0.0,
-    },
-}
+local wezterm = require("wezterm")
 
 
 local backgrounds = {
-    backgrounds_list = backgrounds_list,
-
-    toggle_background = function(window, pane)
-        local overrides = window:get_config_overrides() or {}
-        if not overrides.background then
-            overrides.background = {backgrounds_list[2]}
-        else
-            overrides.background = nil
+    backgrounds_list = function ()
+        local backgrounds = {}
+        for index, filepath in ipairs(assets.wallpaper_filepaths()) do
+            -- wezterm.log_info("Processing wallpaper " .. filepath)
+            backgrounds[index] = {{
+                source={File=filepath,},
+                height="Contain",
+                width="Contain",
+                horizontal_align="Left",
+            }}
         end
-        window:set_config_overrides(overrides)
-    end
+        return backgrounds
+    end,
+    plain_background = {{
+        source={Color="black"},
+        width="100%",
+        height="100%",
+        opacity=1.0
+    }}
 }
 
 return backgrounds

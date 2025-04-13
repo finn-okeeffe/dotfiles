@@ -2,10 +2,64 @@ local wezterm = require("wezterm")
 local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 local config = wezterm.config_builder()
 local background = require("backgrounds")
+local utilities = require("utilities")
 
 -- Background
-wezterm.on('toggle-background', background.toggle_background)
-config.background = {background.backgrounds_list[1]}
+local backgrounds = background.backgrounds_list()
+local num_wallpapers = utilities.table_length(backgrounds)
+wezterm.log_info("num_wallpapers: " .. num_wallpapers)
+
+-- Random initial background
+math.randomseed(os.time())
+-- local background_index = 1
+local background_index = math.random(1, num_wallpapers)
+local is_plain = false
+
+config.background = backgrounds[background_index]
+local change_background = function(window, pane, change_by)
+        wezterm.log_info("Changing background...")
+        local overrides = window:get_config_overrides() or {}
+
+        -- only continue if background image is showing
+        if is_plain then
+            return nil
+        end
+
+        -- increase wallpaper index
+        background_index = background_index + change_by
+
+        -- check if we reached the end of the list
+        if background_index > num_wallpapers then
+            background_index = 1
+        elseif background_index < 1 then
+            background_index = num_wallpapers
+        end
+        print(background_index)
+
+        -- set background
+        overrides.background = backgrounds[background_index]
+
+        window:set_config_overrides(overrides)
+end
+
+local toggle_plain_background = function (window, pane)
+    wezterm.log_info("Toggling plain background")
+    local overrides = window:get_config_overrides() or {}
+
+    if not is_plain then
+        overrides.background = background.plain_background
+        is_plain = true
+    elseif is_plain then
+        overrides.background = backgrounds[background_index]
+        is_plain = false
+    end
+
+    window:set_config_overrides(overrides)
+end
+
+wezterm.on('next-background', function(window, pane) change_background(window, pane, 1) end)
+wezterm.on('previous-background', function(window, pane) change_background(window, pane, -1) end)
+wezterm.on('set-plain-background', toggle_plain_background)
 
 -- Font settings
 config.font_size = 16
@@ -35,7 +89,17 @@ config.keys = {
     {
         key="b",
         mods="ALT",
-        action = wezterm.action.EmitEvent("toggle-background"),
+        action = wezterm.action.EmitEvent("next-background"),
+    },
+    {
+        key="b",
+        mods="ALT|SHIFT",
+        action = wezterm.action.EmitEvent("previous-background"),
+    },
+    {
+        key="B",
+        mods="CTRL|ALT|SHIFT",
+        action = wezterm.action.EmitEvent("set-plain-background"),
     },
     {
         key="_",
