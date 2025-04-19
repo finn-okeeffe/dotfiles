@@ -3,19 +3,100 @@ local wezterm = require("wezterm")
 
 
 local backgrounds = {
-    backgrounds_list = function ()
-        local backgrounds = {}
-        for index, filepath in ipairs(assets.wallpaper_filepaths()) do
-            -- wezterm.log_info("Processing wallpaper " .. filepath)
-            backgrounds[index] = {{
-                source={File=filepath,},
+    backgrounds_list = {
+        {
+            {
+                source={File=assets.wallpapers.dark_bench},
+                width="100%",
                 height="Contain",
-                width="Contain",
-                horizontal_align="Left",
-            }}
-        end
-        return backgrounds
-    end,
+            },
+            {
+                source={Color="black"},
+                width="100%",
+                height="100%",
+            },
+        },
+        {{
+            source={File=assets.wallpapers.door},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.great_wave_of_kanagawa_gruvbox},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.gruv_abstract_maze},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.gruvbox_astro},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.gruvbox_minimal_space},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.gruvbox_wallpaper_cave},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.gruv},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.gruv_portal_cake},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.gruv_wallpaper_toradora_1},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.gruvy_night},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.moon},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.orbit},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.red_moon},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.rocket},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.starry_sky},
+            width="100%",
+            height="Contain",
+        },},
+        {{
+            source={File=assets.wallpapers.sunset},
+            width="100%",
+            height="Contain",
+        },},
+    },
     plain_background = {{
         source={Color="black"},
         width="100%",

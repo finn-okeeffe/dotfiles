@@ -5,7 +5,7 @@ local background = require("backgrounds")
 local utilities = require("utilities")
 
 -- Background
-local backgrounds = background.backgrounds_list()
+local backgrounds = background.backgrounds_list
 local num_wallpapers = utilities.table_length(backgrounds)
 wezterm.log_info("num_wallpapers: " .. num_wallpapers)
 
@@ -14,6 +14,8 @@ math.randomseed(os.time())
 -- local background_index = 1
 local background_index = math.random(1, num_wallpapers)
 local is_plain = false
+
+wezterm.log_info(backgrounds[background_index])
 
 config.background = backgrounds[background_index]
 local change_background = function(window, pane, change_by)
