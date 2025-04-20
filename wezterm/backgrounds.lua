@@ -4,16 +4,21 @@ local wezterm = require("wezterm")
 
 local backgrounds = {
     backgrounds_list = {
+        -- Dark bench
         {
             {
-                source={Color="black"},
+                source={Color="#292929"},
                 width="100%",
                 height="100%",
             },
             {
                 source={File=assets.wallpapers.dark_bench},
-                width="Contain",
-                height="Contain",
+                width=1920,
+                height=1080,
+                horizontal_align="Center",
+                vertical_align="Middle",
+                repeat_x="NoRepeat",
+                repeat_y="NoRepeat",
             },
         },
 
