@@ -236,9 +236,24 @@ config.keys = {
         end),
     },
 }
+
 -- Remove top bars
 config.window_decorations = "RESIZE" -- disable title bar
-config.hide_tab_bar_if_only_one_tab = true
+config.hide_tab_bar_if_only_one_tab = true -- disable tab bar when only one tab
+
+-- Tab bar customisation
+wezterm.on("update-right-status", function(window, pane)
+    local time = wezterm.strftime("%H:%M")
+    window:set_right_status(
+        wezterm.format({
+            {Text=time .. "   "}
+        })
+    )
+end)
+config.window_frame = {
+    font = wezterm.font("FiraCode Nerd Font Mono"),
+    font_size = 16,
+}
 
 
 -- =========================
