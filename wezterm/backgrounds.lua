@@ -54,7 +54,7 @@ local backgrounds = {
                 horizontal_align="Right",
                 vertical_align="Top",
                 horizontal_offset=2559*0.35,
-                vertical_offset=-1439*0.25,
+                vertical_offset=-1439*0.20,
                 repeat_x="NoRepeat",
                 repeat_y="NoRepeat",
             },
@@ -143,11 +143,24 @@ local backgrounds = {
                 vertical_align="Middle",
             },
         },
-        {{
-            source={File=assets.wallpapers.gruv_portal_cake},
-            width="100%",
-            height="Contain",
-        },},
+
+        -- Portals and cake
+        {
+            {
+                source={Color="#282828"},
+                width="100%",
+                height="100%",
+            },
+            {
+                source={File=assets.wallpapers.gruv_portal_cake},
+                repeat_x="NoRepeat",
+                repeat_y="NoRepeat",
+                horizontal_align="Center",
+                vertical_align="Middle",
+                width=1074,
+                height=793,
+            },
+        },
 
         -- Toradora - Taiga in bottom right
         {
@@ -209,6 +222,7 @@ local backgrounds = {
                 source={File=assets.wallpapers.orbit},
                 horizontal_align="Right",
                 vertical_align="Top",
+                vertical_offset="10%",
                 width=2295*0.3,
                 height=1455*0.3,
                 repeat_x="NoRepeat",
@@ -231,6 +245,7 @@ local backgrounds = {
                 repeat_y="NoRepeat",
                 horizontal_align="Right",
                 vertical_align="Top",
+                vertical_offset="10%",
             },
         },
 
