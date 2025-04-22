@@ -237,9 +237,8 @@ config.keys = {
     },
 }
 
--- Remove top bars
-config.window_decorations = "RESIZE" -- disable title bar
-config.hide_tab_bar_if_only_one_tab = true -- disable tab bar when only one tab
+-- Disable top bar
+config.window_decorations = "RESIZE"
 
 -- Tab bar customisation
 wezterm.on("update-right-status", function(window, pane)
