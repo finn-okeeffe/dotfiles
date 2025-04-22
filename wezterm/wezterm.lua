@@ -69,11 +69,29 @@ config.font = wezterm.font("FiraCode Nerd Font Mono")
 
 -- Colors
 config.color_scheme = 'GruvboxDarkHard'
+local color_scheme = wezterm.get_builtin_color_schemes()[config.color_scheme]
+wezterm.log_info(color_scheme)
 
 -- inactive pane styling
 config.inactive_pane_hsb = {
     saturation = 0.0,
     brightness = 0.4,
+}
+
+-- Window frame
+local border_color = color_scheme.brights[1]
+local border_thickness = 0.5
+config.window_frame = {
+    font = wezterm.font("FiraCode Nerd Font Mono"),
+    font_size = 16,
+    border_left_width = tostring(border_thickness) .. "cell",
+    border_right_width = tostring(border_thickness) .. "cell",
+    border_bottom_height = tostring(border_thickness/2) .. "cell",
+    border_top_height = tostring(border_thickness/2) .. "cell",
+    border_left_color = border_color,
+    border_right_color = border_color,
+    border_bottom_color = border_color,
+    border_top_color = border_color,
 }
 
 -- keybinds
@@ -249,10 +267,6 @@ wezterm.on("update-right-status", function(window, pane)
         })
     )
 end)
-config.window_frame = {
-    font = wezterm.font("FiraCode Nerd Font Mono"),
-    font_size = 16,
-}
 
 
 -- =========================
