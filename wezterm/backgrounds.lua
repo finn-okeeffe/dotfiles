@@ -287,6 +287,14 @@ local backgrounds = {
         width="100%",
         height="100%",
         opacity=1.0
+    }},
+
+    -- Transparent background
+    transparent_background = {{
+        source={Color="black"},
+        width="100%",
+        height="100%",
+        opacity=0.8,
     }}
 }
 

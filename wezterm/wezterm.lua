@@ -13,7 +13,7 @@ wezterm.log_info("num_wallpapers: " .. num_wallpapers)
 math.randomseed(os.time())
 -- local background_index = 1
 local background_index = math.random(1, num_wallpapers)
-local is_plain = false
+local background_type = 0 -- 0: image. 1: plain colour. 2: transparent
 
 wezterm.log_info(backgrounds[background_index])
 
@@ -23,7 +23,7 @@ local change_background = function(window, pane, change_by)
         local overrides = window:get_config_overrides() or {}
 
         -- only continue if background image is showing
-        if is_plain then
+        if background_type ~= 0 then
             return nil
         end
 
@@ -48,12 +48,15 @@ local toggle_plain_background = function (window, pane)
     wezterm.log_info("Toggling plain background")
     local overrides = window:get_config_overrides() or {}
 
-    if not is_plain then
+    if background_type == 0 then
         overrides.background = background.plain_background
-        is_plain = true
-    elseif is_plain then
+        background_type = background_type + 1
+    elseif background_type == 1 then
+        overrides.background = background.transparent_background
+        background_type = background_type + 1
+    elseif background_type == 2 then
         overrides.background = backgrounds[background_index]
-        is_plain = false
+        background_type = 0
     end
 
     window:set_config_overrides(overrides)
