@@ -1,8 +1,10 @@
+local lspconfig = require("lspconfig")
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = {
         "pyright",
-        "lua_ls"
+        "lua_ls",
+        "clangd"
     }
 })
 
@@ -69,11 +71,15 @@ matching = { disallow_symbol_nonprefix_matching = false }
 
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-require("lspconfig").lua_ls.setup{
+lspconfig.lua_ls.setup{
     on_attach = on_attach,
     capabilities = capabilities
 }
-require("lspconfig").pyright.setup{
+lspconfig.pyright.setup{
+    on_attach = on_attach,
+    capabilities = capabilities
+}
+lspconfig.clangd.setup{
     on_attach = on_attach,
     capabilities = capabilities
 }
