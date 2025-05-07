@@ -220,6 +220,14 @@ config.keys = {
             resurrect.window_state.save_window_action()
         end),
     },
+    {
+        key = 'p',
+        mods = 'ALT|SHIFT',
+        action = wezterm.action.SpawnCommandInNewTab {
+            label="Launch a new powershell tab",
+            args = {"pwsh"},
+        }
+    },
     { -- loading states with fuzzy find
         key = "r",
         mods = "ALT",
@@ -260,7 +268,6 @@ wezterm.on("update-right-status", function(window, pane)
         })
     )
 end)
-
 
 -- =========================
 -- Windows specific settings
