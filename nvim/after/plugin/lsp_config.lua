@@ -83,3 +83,8 @@ lspconfig.clangd.setup{
     on_attach = on_attach,
     capabilities = capabilities
 }
+
+-- configure how diagnostics are shown
+vim.diagnostic.config({
+    virtual_text = true,
+})
