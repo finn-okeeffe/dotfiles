@@ -13,7 +13,7 @@ vim.opt.autoindent = true -- copy previous line
 vim.opt.smartindent = true -- change indenting based on syntax
 
 -- Search options
-vim.opt.hlsearch = true
+vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
 -- xterm colours thing
