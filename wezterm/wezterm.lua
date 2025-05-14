@@ -276,6 +276,7 @@ end)
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
     -- Launch in powershell
     config.default_prog = {'wsl.exe'}
+    config.default_cwd = "\\\\wsl.localhost\\FedoraLinux-42\\home\\finnokeeffe"
 end
 
 
