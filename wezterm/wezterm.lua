@@ -274,9 +274,16 @@ end)
 -- =========================
 
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-    -- Launch in powershell
-    config.default_prog = {'wsl.exe'}
-    config.default_cwd = "\\\\wsl.localhost\\FedoraLinux-42\\home\\finnokeeffe"
+    -- WSL settings
+    local wsl_domains = wezterm.default_wsl_domains()
+
+    for _, dom in ipairs(wsl_domains) do
+        dom.default_cwd = "~"
+    end
+
+    config.wsl_domains = wsl_domains
+    config.default_domain = "WSL:FedoraLinux-42"
+    config.default_prog = { "wsl.exe" }
 end
 
 
