@@ -13,11 +13,18 @@ wezterm.log_info("num_wallpapers: " .. num_wallpapers)
 math.randomseed(os.time())
 -- local background_index = 1
 local background_index = math.random(1, num_wallpapers)
-local background_type = 0 -- 0: image. 1: plain colour. 2: transparent
+local background_type = 1 -- 0: image. 1: plain colour. 2: transparent
 
 wezterm.log_info(backgrounds[background_index])
 
-config.background = backgrounds[background_index]
+if background_type == 0 then
+    config.background = backgrounds[background_index]
+elseif background_type == 1 then
+    config.background = background.plain_background
+else
+    config.background = background.transparent_background
+end
+
 local change_background = function(window, pane, change_by)
         wezterm.log_info("Changing background...")
         local overrides = window:get_config_overrides() or {}
@@ -67,8 +74,16 @@ wezterm.on('previous-background', function(window, pane) change_background(windo
 wezterm.on('set-plain-background', toggle_plain_background)
 
 -- Font settings
+local font = wezterm.font "FiraMono Nerd Font"
+
 config.font_size = 16
-config.font = wezterm.font("FiraCode Nerd Font Mono")
+config.font = font
+
+-- Window frame
+config.window_frame = {
+    font = font,
+    font_size = 16,
+}
 
 -- Colors
 config.color_scheme = 'GruvboxDarkHard'
@@ -79,12 +94,6 @@ wezterm.log_info(color_scheme)
 config.inactive_pane_hsb = {
     saturation = 0.0,
     brightness = 0.4,
-}
-
--- Window frame
-config.window_frame = {
-    font = wezterm.font("FiraCode Nerd Font Mono"),
-    font_size = 16,
 }
 
 -- keybinds
@@ -225,7 +234,7 @@ config.keys = {
         mods = 'ALT|SHIFT',
         action = wezterm.action.SpawnCommandInNewTab {
             label="Launch a new powershell tab",
-            args = {"pwsh"},
+            args = {"/mnt/c/Program\\ Files/Powershell/7/pwsh.exe"},
         }
     },
     { -- loading states with fuzzy find
