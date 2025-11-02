@@ -1,4 +1,3 @@
-local lspconfig = require("lspconfig")
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = {
@@ -71,18 +70,18 @@ matching = { disallow_symbol_nonprefix_matching = false }
 
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-lspconfig.lua_ls.setup{
+vim.lsp.config('lua_ls',{
     on_attach = on_attach,
     capabilities = capabilities
-}
-lspconfig.pyright.setup{
+})
+vim.lsp.config('pyright',{
     on_attach = on_attach,
     capabilities = capabilities
-}
-lspconfig.clangd.setup{
+})
+vim.lsp.config('clangd',{
     on_attach = on_attach,
     capabilities = capabilities
-}
+})
 
 -- configure how diagnostics are shown
 vim.diagnostic.config({
