@@ -51,7 +51,8 @@
           "foreground": "#ebdbb2",
           "properties": {
             "folder_icon": "\u2026",
-            "style": "mixed"
+            "style": "fish",
+            "full_length_dirs": 2
           },
           "style": "plain",
           "template": " {{ .Path }} ",
