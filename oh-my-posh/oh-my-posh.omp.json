@@ -40,8 +40,11 @@
           "background": "#282828",
           "foreground": "#928374",
           "style": "plain",
-          "template": " {{ if .SSHSession }}\ueba9 {{ end }}{{ .UserName }}@{{ .HostName }} ",
-          "type": "session"
+          "template": " {{ .CurrentDate | date .Format }} ",
+          "type": "time",
+          "properties": {
+            "time_format":"15:04:05"
+          }
         },
         {
           "background": "#504945",
@@ -74,8 +77,8 @@
           "type": "git"
         },
         {
-          "background": "#7014eb",
-          "foreground": "#193549",
+          "background": "#282828",
+          "foreground": "#928374",
           "properties": {
             "fetch_version": false
           },
@@ -85,7 +88,7 @@
         },
         {
           "background": "#282828",
-          "foreground": "#ebdbb2",
+          "foreground": "#928374",
           "properties": {
             "fetch_version": false
           },
@@ -95,7 +98,7 @@
         },
         {
           "background": "#282828",
-          "foreground": "#ebdbb2",
+          "foreground": "#928374",
           "properties": {
             "fetch_version": true
           },
@@ -105,7 +108,7 @@
         },
         {
           "background": "#282828",
-          "foreground": "#ebdbb2",
+          "foreground": "#928374",
           "properties": {
             "fetch_version": false
           },
