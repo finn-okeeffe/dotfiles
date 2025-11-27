@@ -43,6 +43,13 @@ require("lazy").setup({
 	  {"hrsh7th/cmp-vsnip"},
 	  {"hrsh7th/vim-vsnip"},
 	  {"rhysd/conflict-marker.vim"},
+      {
+        "quarto-dev/quarto-nvim",
+        dependencies = {
+            "jmbuhr/otter.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+      }
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
