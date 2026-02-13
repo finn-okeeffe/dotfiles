@@ -22,23 +22,30 @@
           "template": "{{ if gt .Code 0 }} {{ .Code }} {{ end }}",
           "type": "status"
         },
+	{
+          "background": "#3c3836",
+          "foreground": "#ebdbb2",
+	  "type": "session",
+	  "style": "plain",
+	  "template": " {{ if .SSHSession }}\ueba9 {{ end }}{{ .UserName }}@<#98971a>{{ .HostName }}</> "
+	},
         {
           "background": "#ffcc88",
-          "foreground": "#222222",
+          "foreground": "#ebdbb2",
           "style": "plain",
           "template": "\uf0e7",
           "type": "root"
         },
         {
           "background": "#282828",
-          "foreground": "#928374",
+          "foreground": "#ebdbb2",
           "style": "plain",
           "template": " {{ if .WSL }}\uebcc {{ end }}{{.Icon}}",
           "type": "os"
         },
         {
           "background": "#282828",
-          "foreground": "#928374",
+          "foreground": "#ebdbb2",
           "style": "plain",
           "template": " {{ .CurrentDate | date .Format }} ",
           "type": "time",
@@ -47,7 +54,7 @@
           }
         },
         {
-          "background": "#504945",
+          "background": "#3c3836",
           "foreground": "#ebdbb2",
           "properties": {
             "folder_icon": "\u2026",
