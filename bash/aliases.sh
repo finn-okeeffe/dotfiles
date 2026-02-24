@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 
-alias summarise-meeting='cursor-agent --print agent /summary-and-actions-from-meeting-transcript >> summary.txt'
-
 alias sco='cd ~/Scarlatti && o "$(fzf)"'
 
 alias wezterm='flatpak run org.wezfurlong.wezterm'
