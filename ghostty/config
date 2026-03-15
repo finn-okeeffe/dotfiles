@@ -1,0 +1,2 @@
+# Compatibility shim for Ghostty versions that still read `config`.
+config-file = config.ghostty

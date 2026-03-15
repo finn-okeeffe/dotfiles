@@ -1,0 +1,9 @@
+# Optional single-wallpaper mode.
+# Ghostty supports one configured background image instead of a rotatable list.
+# Replace the path below with an absolute path to one of your wallpapers.
+background = #282828
+background-image = /absolute/path/to/a/gruvbox-wallpaper.png
+background-image-fit = contain
+background-image-position = center-right
+background-image-repeat = false
+background-image-opacity = 1.0
