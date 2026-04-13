@@ -131,8 +131,8 @@ def main(argv: list[str]) -> int:
     )
     p.add_argument(
         "--kroki-url",
-        default=os.environ.get("KROKI_URL", "http://localhost:8000"),
-        help='Kroki base URL (default: "http://localhost:8000"; env: KROKI_URL).',
+        default=os.environ.get("KROKI_URL", "http://kroki:8000"),
+        help='Kroki base URL (default: "http://kroki:8000"; env: KROKI_URL).',
     )
     p.add_argument(
         "--out-dir",
