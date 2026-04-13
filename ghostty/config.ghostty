@@ -3,14 +3,14 @@ theme = GruvboxDarkHard
 
 # Match the terminal font and size from WezTerm.
 font-family = FiraMono Nerd Font
-font-size = 16
+font-size = 24
 
 # Keep the default background as a solid dark color.
 background = #1d2021
 
 # Closest Ghostty equivalent to WezTerm's minimal "RESIZE" decorations.
 # This removes window chrome entirely rather than keeping resize-only edges.
-window-decoration = none
+# window-decoration = none
 
 # Match the "always confirm" intent of the custom Ctrl+W close binding.
 confirm-close-surface = always
@@ -18,8 +18,7 @@ confirm-close-surface = always
 # Leader-style config reload.
 # Ghostty sequences do not support a timeout, so Ctrl+J waits for another key.
 # Press Ctrl+J twice to emit the original Ctrl+J/LF sequence.
-keybind = ctrl+j>ctrl+j=text:\x0a
-keybind = ctrl+j>shift+r=reload_config
+keybind = alt+j=reload_config
 
 # Pane management.
 keybind = alt+shift+minus=new_split:down

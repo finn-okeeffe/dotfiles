@@ -1,6 +1,5 @@
 version: 8
 profiles: []
-groups: []
 configSync:
   parts: {}
 hotkeys:
@@ -221,6 +220,7 @@ terminal:
   font: FiraMono Nerd Font Mono
   customColorSchemes: []
   bell: audible
+  profile: local:wsl-FedoraLinux-42
 ssh:
   knownHosts:
     - host: 103.193.138.84
@@ -233,7 +233,8 @@ appearance:
   css: |
     /* * { color: blue !important; }*/
   vibrancy: true
-hacks: {}
+hacks:
+  disableGPU: true
 providerBlacklist: []
 commandBlacklist: []
 enableAnalytics: false
@@ -243,3 +244,4 @@ profileDefaults:
   ssh:
     disableDynamicTitle: true
 profileBlacklist: []
+groups: []
