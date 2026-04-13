@@ -9,3 +9,5 @@ alias pwsh='pwsh.exe'
 alias pq="parquet-tools"
 alias mntd="sudo mount -t drvfs D: /mnt/d"
 alias pdb="uv run python -m pdb"
+alias nvim="uv run nvim"
+alias obsidian="obsidian.com"
