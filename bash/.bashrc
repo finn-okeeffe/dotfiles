@@ -131,3 +131,4 @@ export VISUAL="nvim"
 
 # lesspipe
 LESSOPEN="|lesspipe.sh %s"; export LESSOPEN  # (sh like shells)
+export LESS="-R"

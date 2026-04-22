@@ -221,6 +221,8 @@ terminal:
   font: FiraMono Nerd Font Mono
   customColorSchemes: []
   bell: audible
+  pasteOnMiddleClick: true
+  autoOpen: false
 ssh:
   knownHosts:
     - host: 103.193.138.84
@@ -232,7 +234,6 @@ accessibility: {}
 appearance:
   css: |
     /* * { color: blue !important; }*/
-  vibrancy: true
 hacks: {}
 providerBlacklist: []
 commandBlacklist: []
