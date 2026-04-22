@@ -9,16 +9,8 @@
     "keybindings": 
     [
         {
-            "id": "Terminal.CopyToClipboard",
-            "keys": "ctrl+c"
-        },
-        {
             "id": "Terminal.FindText",
             "keys": "ctrl+shift+f"
-        },
-        {
-            "id": "Terminal.PasteFromClipboard",
-            "keys": "ctrl+v"
         },
         {
             "id": "Terminal.DuplicatePaneAuto",
@@ -72,6 +64,8 @@
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
+                "commandline": "wsl.exe -d FedoraLinux-42",
+                "cursorShape": "filledBox",
                 "font": 
                 {
                     "face": "FiraCode Nerd Font Mono"
@@ -79,7 +73,8 @@
                 "guid": "{5213ce3a-b528-51b0-ab86-e588614df534}",
                 "hidden": false,
                 "name": "FedoraLinux-42",
-                "source": "Microsoft.WSL"
+                "source": "Microsoft.WSL",
+                "startingDirectory": null
             },
             {
                 "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
@@ -89,6 +84,7 @@
             }
         ]
     },
+    "rendering.graphicsAPI": "direct3d11",
     "schemes": 
     [
         {
