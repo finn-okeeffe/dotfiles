@@ -18,6 +18,7 @@ vim.opt.incsearch = true
 
 -- xterm colours thing
 vim.opt.termguicolors = true
+vim.opt.winborder = "rounded"
 
 -- scrolling, keep a number of columns at the top/bottom
 vim.opt.scrolloff = 8

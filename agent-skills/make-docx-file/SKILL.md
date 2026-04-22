@@ -1,10 +1,10 @@
 ---
 name: make-docx-file
 description: Create a .docx by drafting Markdown first, rendering Mermaid via Kroki, then converting with pandoc (with safe escaping + math support).
-compatibility: Requires `pandoc`, `uv`, and a Kroki container reachable at `http://localhost:8000`.
+compatibility: Requires `pandoc`, `uv`, and a Kroki container reachable at `http://kroki:8000`.
 disable-model-invocation: false
 metadata:
-  kroki_url: http://localhost:8000
+  kroki_url: http://kroki:8000
 ---
 
 # make-docx-file
@@ -16,7 +16,7 @@ Create a high-quality `.docx` document **via Markdown as the source of truth**.
 You MUST:
 - Produce a **descriptive base name** for outputs (not generic like `report`). If the user didn’t provide one, ask for it. If the user truly doesn’t care, infer one from topic + date and state it before writing files.
 - First create `<base>.md` with the full content.
-- Convert Mermaid diagrams to images via Kroki at `http://localhost:8000` and embed them in the Markdown.
+- Convert Mermaid diagrams to images via Kroki at `http://kroki:8000` and embed them in the Markdown.
 - Convert the (diagram-rendered) Markdown to `<base>.docx` using pandoc with explicit Markdown/math extensions.
 - Escape Markdown characters that commonly break conversion (especially literal `$`).
 
@@ -76,14 +76,14 @@ graph TD
 ```
 ````
 
-- Render it to a PNG via Kroki at `http://localhost:8000`.
+- Render it to a PNG via Kroki at `http://kroki:8000`.
 - Replace the Mermaid block with a Markdown image that will become a figure in the `.docx`.
 - Keep the **Mermaid source as a small caption** on the image (compact/minified is fine).
 
 Use the bundled script (recommended):
 
 - From the repository root:
-  - `uv run agent-skills/make-docx-file/scripts/render_mermaid.py "<base>.md" --output "<base>.rendered.md" --kroki-url "http://localhost:8000" --out-dir "generated/diagrams"`
+  - `uv run agent-skills/make-docx-file/scripts/render_mermaid.py "<base>.md" --output "<base>.rendered.md" --kroki-url "http://kroki:8000" --out-dir "generated/diagrams"`
 
 If there are no Mermaid blocks, you can set `<base>.rendered.md` to be identical to `<base>.md`.
 

@@ -1,0 +1,41 @@
+# Main Ghostty config translated from the sibling WezTerm setup.
+theme = GruvboxDarkHard
+
+# Match the terminal font and size from WezTerm.
+font-family = FiraMono Nerd Font
+font-size = 24
+
+# Keep the default background as a solid dark color.
+background = #1d2021
+
+# Closest Ghostty equivalent to WezTerm's minimal "RESIZE" decorations.
+# This removes window chrome entirely rather than keeping resize-only edges.
+# window-decoration = none
+
+# Match the "always confirm" intent of the custom Ctrl+W close binding.
+confirm-close-surface = always
+
+# Leader-style config reload.
+# Ghostty sequences do not support a timeout, so Ctrl+J waits for another key.
+# Press Ctrl+J twice to emit the original Ctrl+J/LF sequence.
+keybind = alt+j=reload_config
+
+# Pane management.
+keybind = alt+shift+minus=new_split:down
+keybind = alt+shift+equal=new_split:right
+keybind = alt+left=goto_split:left
+keybind = alt+right=goto_split:right
+keybind = alt+up=goto_split:up
+keybind = alt+down=goto_split:down
+keybind = alt+shift+left=resize_split:left,10
+keybind = alt+shift+right=resize_split:right,10
+keybind = alt+shift+up=resize_split:up,10
+keybind = alt+shift+down=resize_split:down,10
+keybind = ctrl+w=close_surface
+keybind = ctrl+shift+up=scroll_page_lines:-1
+keybind = ctrl+shift+down=scroll_page_lines:1
+keybind = f11=toggle_fullscreen
+
+# Optional snippets for features Ghostty supports differently:
+# config-file = optional/transparent-background.ghostty
+# config-file = optional/wallpaper-background.example.ghostty

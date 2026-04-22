@@ -7,14 +7,24 @@ require("mason-lspconfig").setup({
     }
 })
 
-local on_attach = function(_, bufnr)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {})
+local hover_opts = {
+    border = "rounded",
+    title = " Hover ",
+    title_pos = "center",
+}
 
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {})
-    vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, {})
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
+local on_attach = function(_, bufnr)
+    local opts = { buffer = bufnr }
+
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts)
+    vim.keymap.set('n', 'K', function()
+        vim.lsp.buf.hover(vim.deepcopy(hover_opts))
+    end, opts)
 end
 
 

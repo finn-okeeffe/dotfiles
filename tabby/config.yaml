@@ -1,6 +1,5 @@
 version: 8
 profiles: []
-groups: []
 configSync:
   parts: {}
 hotkeys:
@@ -234,7 +233,9 @@ accessibility: {}
 appearance:
   css: |
     /* * { color: blue !important; }*/
-hacks: {}
+  vibrancy: true
+hacks:
+  disableGPU: true
 providerBlacklist: []
 commandBlacklist: []
 enableAnalytics: false
@@ -244,3 +245,4 @@ profileDefaults:
   ssh:
     disableDynamicTitle: true
 profileBlacklist: []
+groups: []
