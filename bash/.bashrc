@@ -132,3 +132,6 @@ export VISUAL="nvim"
 # lesspipe
 LESSOPEN="|lesspipe.sh %s"; export LESSOPEN  # (sh like shells)
 export LESS="-R"
+
+# opencode
+export PATH=/home/finn/.opencode/bin:$PATH
