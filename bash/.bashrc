@@ -135,3 +135,6 @@ export LESS="-R"
 
 # opencode
 export PATH=/home/finn/.opencode/bin:$PATH
+
+# Environment variables
+set -a; source .env; set +a
