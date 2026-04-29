@@ -24,5 +24,12 @@
     "lsp": "allow",
     "question": "allow",
     "todowrite": "allow"
+  },
+  "mcp": {
+    "obsidian": {
+      "type": "local",
+      "command": ["docker", "run", "-i", "--env-file", "/home/finn/.env", "--network", "host", "mcp/obsidian"],
+      "enabled": true
+    }
   }
 }
