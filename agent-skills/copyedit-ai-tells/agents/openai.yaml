@@ -1,0 +1,4 @@
+interface:
+  display_name: "Copyedit AI Tells"
+  short_description: "Flag formulaic AI tells in writing"
+  default_prompt: "Review this text for the defined AI-tell patterns and write a concise report."

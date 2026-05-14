@@ -1,0 +1,7 @@
+interface:
+  display_name: "Copyedit (False-positive filter)"
+  short_description: "Keep or dismiss one candidate issue as false positive or nitpick"
+  default_prompt: "Use $copyedit-fp-filter to evaluate one issue and output a keep or dismiss decision."
+
+policy:
+  allow_implicit_invocation: false

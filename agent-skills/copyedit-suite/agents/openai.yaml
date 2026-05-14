@@ -1,0 +1,7 @@
+interface:
+  display_name: "Copyedit Suite"
+  short_description: "Multi-pass NZ English copy edit with per-issue false-positive filtering and consolidated markdown report"
+  default_prompt: "Run $copyedit-suite on the provided text or file(s) and write copyedit_feedback.md at the repo root."
+
+policy:
+  allow_implicit_invocation: false

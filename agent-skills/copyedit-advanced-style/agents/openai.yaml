@@ -1,0 +1,7 @@
+interface:
+  display_name: "Copyedit (Advanced style)"
+  short_description: "Advanced NZ English style refinement with automatic false-positive filtering"
+  default_prompt: "Run $copyedit-advanced-style on the provided text or file(s) and write copyedit_advanced_style_feedback.md at the repo root."
+
+policy:
+  allow_implicit_invocation: true

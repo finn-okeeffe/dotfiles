@@ -1,0 +1,4 @@
+interface:
+  display_name: "Copyedit Interactive"
+  short_description: "Resolve copyedit items with stateful review."
+  default_prompt: "Process copyedit_feedback.md issues one-by-one with context, decisions, and immediate execution."

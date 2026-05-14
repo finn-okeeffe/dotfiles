@@ -1,0 +1,7 @@
+interface:
+  display_name: "Copyedit (Terminology and units)"
+  short_description: "Terminology and units consistency checks with automatic false-positive filtering"
+  default_prompt: "Run $copyedit-terminology-units on the provided text or file(s) and write copyedit_terminology_units_feedback.md at the repo root."
+
+policy:
+  allow_implicit_invocation: true

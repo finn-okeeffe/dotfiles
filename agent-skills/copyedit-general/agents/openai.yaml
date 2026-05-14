@@ -1,0 +1,7 @@
+interface:
+  display_name: "Copyedit (General)"
+  short_description: "General NZ English copy editing with automatic false-positive filtering"
+  default_prompt: "Run $copyedit-general on the provided text or file(s) and write copyedit_general_feedback.md at the repo root."
+
+policy:
+  allow_implicit_invocation: true

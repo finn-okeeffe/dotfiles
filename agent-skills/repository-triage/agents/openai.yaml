@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repository Triage"
+  short_description: "Propose one next action: delete, ignore, or incremental commit"
+  default_prompt: "Use $repository-triage to inspect this repository and propose exactly one next action in priority order: delete, otherwise ignore, otherwise a single incremental commit."

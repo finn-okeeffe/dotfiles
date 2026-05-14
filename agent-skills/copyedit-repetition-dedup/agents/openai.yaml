@@ -1,0 +1,7 @@
+interface:
+  display_name: "Copyedit (Repetition De-dup)"
+  short_description: "NZ English repetition checks with filtered keep-cut-merge output"
+  default_prompt: "Run $copyedit-repetition-dedup on the provided text or file(s) and write copyedit_repetition_dedup_feedback.md at the repo root."
+
+policy:
+  allow_implicit_invocation: true
