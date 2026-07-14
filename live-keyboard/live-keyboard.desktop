@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Live Keyboard
+Comment=Start qpwgraph and Konfyt with low-latency PipeWire settings
+Exec=sh -lc "$HOME/.local/bin/live-keyboard"
+Terminal=false
+Categories=Audio;AudioVideo;Music;
+Icon=/home/finn/dev/dotfiles/live-keyboard/live-keyboard.png
