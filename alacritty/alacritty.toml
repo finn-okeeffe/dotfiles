@@ -1,0 +1,24 @@
+[general]
+import = ["colors.gruvboxdarkhard.toml"]
+
+working_directory = "None"
+
+live_config_reload = true
+
+ipc_socket = true
+
+[window]
+padding = { x = 20, y = 20 }
+dynamic_padding = true
+decorations="None"
+opacity=1.0
+startup_mode = "Windowed"
+dynamic_title = true
+
+[scrolling]
+history = 100000
+
+[font]
+normal = {family = "Mononoki nerd font mono", style="Regular"}
+size = 16
+
