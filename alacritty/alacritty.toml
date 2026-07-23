@@ -10,10 +10,10 @@ ipc_socket = true
 [window]
 padding = { x = 20, y = 20 }
 dynamic_padding = true
-decorations="None"
 opacity=1.0
-startup_mode = "Windowed"
+startup_mode = "Maximized"
 dynamic_title = true
+decorations = "None"
 
 [scrolling]
 history = 100000
