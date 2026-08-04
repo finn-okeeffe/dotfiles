@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scarlatti Designed Outputs"
+  short_description: "Create consistent Scarlatti-branded outputs"
+  default_prompt: "Use $scarlatti-designed-outputs to create a polished Scarlatti-branded deliverable."
