@@ -1,0 +1,344 @@
+#!/usr/bin/env bash
+# Configure an original Arturia KeyLab Essential User map for Ardour Cue Grid.
+#
+# Pads 1-8 become note triggers on MIDI channel 16, notes 36-43, in Gate mode.
+# Their fixed velocities are on=127 and off=0.  The optional mixer-controls
+# layer adds banked track gain/pan controls and three global Ardour functions.
+# The script writes directly to a selected User map (User 1 is map byte 03),
+# commits each change, and names the map "Ardour Cue".
+
+set -euo pipefail
+
+program_name=${0##*/}
+port=''
+user_map=1
+dry_run=false
+select_map=true
+write_pads=true
+write_mixer_controls=false
+sysex_write_delay=0.02
+sysex_store_delay=0.08
+sysex_recall_delay=0.20
+
+usage() {
+    cat <<EOF
+Usage: ${program_name} --port PORT [options]
+
+Write an Ardour Cue Grid pad layout to an original Arturia KeyLab Essential.
+
+Required:
+  --port PORT       ALSA raw-MIDI output port, e.g. hw:2,0,0
+
+Options:
+  --map N           User map to overwrite (1-6; default: 1)
+  --mixer-controls  Also write the fader, knob, and assignable-button layout
+  --controls-only   Compatibility alias for --mixer-controls (writes the full map)
+  --dry-run          Print SysEx messages without sending them
+  --no-select        Skip target-map recall/activation (less reliable; not recommended)
+  --list-ports       List ALSA raw-MIDI ports and exit
+  -h, --help         Show this help
+
+The resulting layout is:
+  Name: Ardour Cue
+  Pad 1-8: MIDI Note, channel 16, notes 36-43, Gate (on velocity 127)
+
+With --mixer-controls:
+  Fader 1-8: channel 16 CC 20-27 (track gain banks)
+  Fader 9:   channel 16 CC 28 (Master gain)
+  Knob 1-8:  channel 16 CC 70-77 (track pan banks)
+  Knob 9:    channel 16 CC 78 (selected track's first send)
+  Part 1/2:  channel 16 notes 44/45 (previous/next bank)
+  Live:      channel 16 note 46 (global record-arm toggle)
+
+Use the KeyLab's normal MIDI port in Ardour (not MIDIIN2 / the MCU-HUI port).
+EOF
+}
+
+while (($#)); do
+    case $1 in
+        --port)
+            (($# >= 2)) || { echo "${program_name}: --port needs a value" >&2; exit 2; }
+            port=$2
+            shift 2
+            ;;
+        --map)
+            (($# >= 2)) || { echo "${program_name}: --map needs a value" >&2; exit 2; }
+            user_map=$2
+            shift 2
+            ;;
+        --mixer-controls)
+            write_mixer_controls=true
+            shift
+            ;;
+        --controls-only)
+            # The legacy Essential accepts isolated controller writes
+            # unreliably. Reapply the known-good pads as part of the same map
+            # initialization, just like --mixer-controls.
+            write_pads=true
+            write_mixer_controls=true
+            shift
+            ;;
+        --dry-run)
+            dry_run=true
+            shift
+            ;;
+        --no-select)
+            select_map=false
+            shift
+            ;;
+        --list-ports)
+            command -v amidi >/dev/null || {
+                echo "${program_name}: amidi is required (install alsa-utils)" >&2
+                exit 1
+            }
+            amidi -l
+            exit 0
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "${program_name}: unknown option: $1" >&2
+            usage >&2
+            exit 2
+            ;;
+    esac
+done
+
+[[ $user_map =~ ^[1-6]$ ]] || {
+    echo "${program_name}: --map must be an integer from 1 to 6" >&2
+    exit 2
+}
+
+if [[ -z $port && $dry_run == false ]]; then
+    echo "${program_name}: --port is required" >&2
+    usage >&2
+    exit 2
+fi
+
+if [[ $dry_run == false ]]; then
+    command -v amidi >/dev/null || {
+        echo "${program_name}: amidi is required (install alsa-utils)" >&2
+        exit 1
+    }
+fi
+
+# Arturia's map selector is 1=Analog Lab, 2=DAW, 3=User 1 ... 8=User 6.
+map_id=$((user_map + 2))
+
+send_sysex() {
+    local message=$1
+
+    if [[ $dry_run == true ]]; then
+        printf '%s\n' "$message"
+    else
+        amidi -p "$port" -S "$message"
+        # Let the controller consume one SysEx write before the next command.
+        sleep "$sysex_write_delay"
+    fi
+}
+
+store_user_map() {
+    local message
+
+    printf -v message 'F0 00 20 6B 7F 42 06 %02X F7' "$map_id"
+    send_sysex "$message"
+    if [[ $dry_run == false ]]; then
+        # A store writes flash; the legacy Essential drops occasional subsequent
+        # parameter writes unless it has considerably more than the 20 ms
+        # inter-message delay to finish this operation.
+        sleep "$sysex_store_delay"
+    fi
+}
+
+recall_user_map() {
+    local message
+
+    printf -v message 'F0 00 20 6B 7F 42 05 %02X F7' "$map_id"
+    send_sysex "$message"
+    if [[ $dry_run == false ]]; then
+        # SysEx Controls recalls a User map before editing it. Give its active
+        # controller state time to load before any write is sent.
+        sleep "$sysex_recall_delay"
+    fi
+}
+
+set_control_parameter() {
+    local parameter=$1
+    local control_id=$2
+    local value=$3
+    local message
+
+    printf -v message 'F0 00 20 6B 7F 42 02 %02X %02X %02X %02X F7' \
+        "$map_id" "$parameter" "$control_id" "$value"
+    send_sysex "$message"
+    # User maps require an explicit store command after a change.
+    store_user_map
+}
+
+set_string_parameter() {
+    local parameter=$1
+    local control_id=$2
+    local value=$3
+    local message
+    local bytes=''
+    local character
+    local codepoint
+    local index
+
+    ((${#value} <= 16)) || {
+        echo "${program_name}: SysEx string is longer than 16 characters: ${value}" >&2
+        exit 2
+    }
+
+    # This controller's strings are 7-bit ASCII and NUL-terminated.
+    for ((index = 0; index < ${#value}; index++)); do
+        character=${value:index:1}
+        printf -v codepoint '%d' "'$character"
+        printf -v bytes '%s%02X ' "$bytes" "$codepoint"
+    done
+
+    printf -v message 'F0 00 20 6B 7F 42 04 %02X %02X %02X %s00 F7' \
+        "$map_id" "$parameter" "$control_id" "$bytes"
+    send_sysex "$message"
+    store_user_map
+}
+
+set_map_name() {
+    # The original Essential stores the map title at parameter 20, control 3F.
+    set_string_parameter 32 63 'Ardour Cue'
+}
+
+set_control_name() {
+    set_string_parameter 32 "$1" "$2"
+}
+
+configure_pads() {
+    local pad_index
+    local control_id
+    local note
+
+    for pad_index in {0..7}; do
+        control_id=$((0x70 + pad_index))
+        note=$((36 + pad_index))
+
+        # Parameter 1: Pad MIDI Note mode (07 on the original Essential).
+        set_control_parameter 1 "$control_id" 7
+        # Parameter 2: MIDI channel, zero-based (15 means MIDI channel 16).
+        set_control_parameter 2 "$control_id" 15
+        # Parameter 3: MIDI note number.
+        set_control_parameter 3 "$control_id" "$note"
+        # Parameters 4 and 5: fixed note-off and note-on velocities.  This avoids
+        # inheriting the Bank LSB/MSB values that the previous Patch Change mode used.
+        set_control_parameter 4 "$control_id" 0
+        set_control_parameter 5 "$control_id" 127
+        # Parameter 7: Gate (rather than the controller's hardware Toggle behaviour).
+        set_control_parameter 7 "$control_id" 1
+    done
+}
+
+configure_fader() {
+    local control_id=$1
+    local cc=$2
+    local name=$3
+
+    # Keep the Drawbar option, then explicitly reverse Min/Max.  On the
+    # original Essential this gives an Ardour-friendly physical-up=127,
+    # physical-down=0 response; relying on the option alone did not.
+    set_control_parameter 1 "$control_id" 1
+    set_control_name "$control_id" "$name"
+    set_control_parameter 6 "$control_id" 1
+    set_control_parameter 2 "$control_id" 15
+    set_control_parameter 3 "$control_id" "$cc"
+    set_control_parameter 4 "$control_id" 127
+    set_control_parameter 5 "$control_id" 0
+}
+
+configure_knob() {
+    local control_id=$1
+    local cc=$2
+    local name=$3
+
+    # Mode=Control, option=Absolute, no acceleration, channel 16, full CC range.
+    set_control_parameter 1 "$control_id" 1
+    set_control_name "$control_id" "$name"
+    set_control_parameter 6 "$control_id" 0
+    set_control_parameter 9 "$control_id" 0
+    set_control_parameter 2 "$control_id" 15
+    set_control_parameter 3 "$control_id" "$cc"
+    set_control_parameter 4 "$control_id" 0
+    set_control_parameter 5 "$control_id" 127
+}
+
+configure_button() {
+    local control_id=$1
+    local note=$2
+
+    # MIDI Note mode with Gate ensures a clean Note On action per press.
+    set_control_parameter 1 "$control_id" 7
+    set_control_parameter 2 "$control_id" 15
+    set_control_parameter 3 "$control_id" "$note"
+    set_control_parameter 4 "$control_id" 0
+    set_control_parameter 5 "$control_id" 127
+    set_control_parameter 7 "$control_id" 1
+}
+
+configure_mixer_controls() {
+    local control_index
+    local control_id
+    local cc
+    local fader_name
+    local knob_name
+
+    for control_index in {0..7}; do
+        control_id=$((0x42 + control_index))
+        cc=$((20 + control_index))
+        fader_name="Track $((control_index + 1))"
+        configure_fader "$control_id" "$cc" "$fader_name"
+    done
+    configure_fader 0x4a 28 'Master'
+
+    for control_index in {0..7}; do
+        control_id=$((1 + control_index))
+        cc=$((70 + control_index))
+        knob_name="Pan $((control_index + 1))"
+        configure_knob "$control_id" "$cc" "$knob_name"
+    done
+    configure_knob 9 78 'FX Send'
+
+    # The printed labels are fixed, but these emit distinct notes for Ardour.
+    configure_button 0x1a 44 # Part 1: previous bank
+    configure_button 0x1b 45 # Part 2: next bank
+    configure_button 0x1c 46 # Live: global record-arm toggle
+}
+
+echo "Writing Ardour Cue layout to KeyLab Essential User ${user_map}" >&2
+
+if [[ $select_map == true ]]; then
+    recall_user_map
+fi
+
+set_map_name
+
+if [[ $write_pads == true ]]; then
+    configure_pads
+fi
+
+if [[ $write_mixer_controls == true ]]; then
+    echo "Configuring 9 faders, 9 knobs, and 3 buttons; this takes about 25 seconds." >&2
+    configure_mixer_controls
+fi
+
+if [[ $select_map == true ]]; then
+    # Reload the stored User map so the controller runs precisely what was saved.
+    recall_user_map
+fi
+
+if [[ $dry_run == true ]]; then
+    echo "Dry run complete; no settings were sent." >&2
+elif [[ $write_mixer_controls == true ]]; then
+    echo "Done. In Ardour, MIDI-learn pads 1-8 and load the matching Generic MIDI map for mixer controls." >&2
+else
+    echo "Done. In Ardour, MIDI-learn pads 1-8 on the Cue slots you want to trigger." >&2
+fi

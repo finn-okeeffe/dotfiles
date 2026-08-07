@@ -2,7 +2,7 @@
 set -e
 
 # Set env
-export PIPEWIRE_QUANTIM=128/48000
+export PIPEWIRE_QUANTUM=128/48000
 
 # Start programs as PipeWire JACK client with low-latency
 pw-jack carla &
