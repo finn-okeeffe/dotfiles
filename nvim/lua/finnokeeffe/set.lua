@@ -1,3 +1,6 @@
+-- Let Neovim discover the uv-installed pynvim tool instead of pinning Fedora's system Python.
+vim.g.python3_host_prog = nil
+
 -- line numbers
 vim.opt.nu = true
 vim.opt.relativenumber = true
