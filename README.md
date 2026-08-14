@@ -26,4 +26,4 @@ Initialise Molten with `:MoltenInit` (optionally followed by a kernel name), the
 - `\rl`: run the current line; and
 - visual `\r`: run the selected range.
 
-Text output appears as virtual text. Plot images are float-only: use `\os` to show or enter the current cell's output and `\oh` to hide it. Keeping image decorations out of the Quarto buffer and disabling overlap-driven redraws prevents them from interfering with entry into Neovim's Visual modes.
+Text output appears as virtual text. Plot images are float-only: use `\os` to show or enter the current cell's output and `\oh` to hide it. Molten keeps the float below its cell when there is room; near the bottom of the window or the end of the document, it moves the float upwards to reserve up to the configured 20-row preview height. If the window is too short for that preview, the float starts at its minimum row and Molten limits it to the available height. Keeping image decorations out of the Quarto buffer and disabling overlap-driven redraws prevents them from interfering with entry into Neovim's Visual modes.
