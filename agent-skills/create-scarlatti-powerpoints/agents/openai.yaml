@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Scarlatti PowerPoints"
+  short_description: "Create and update polished Scarlatti slide decks"
+  default_prompt: "Use $create-scarlatti-powerpoints to create or update a polished Scarlatti PowerPoint deck."
