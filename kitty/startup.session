@@ -1,4 +1,4 @@
 # Alacritty uses startup_mode = "Maximized". Kitty stores window state in a
 # startup session instead of kitty.conf.
 os_window_state maximized
-launch zellij-main
+launch zsh -c "zellij-main"
