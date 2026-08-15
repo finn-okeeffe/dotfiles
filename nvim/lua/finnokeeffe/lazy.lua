@@ -85,6 +85,54 @@ require("lazy").setup({
 	  {"hrsh7th/cmp-vsnip"},
 	  {"hrsh7th/vim-vsnip"},
 	  {"rhysd/conflict-marker.vim"},
+	  {
+		  "3rd/image.nvim",
+		  build = false,
+		  opts = {
+			  backend = "kitty",
+			  processor = "magick_cli",
+			  integrations = {},
+			  max_width = 100,
+			  max_height = 12,
+			  max_width_window_percentage = math.huge,
+			  max_height_window_percentage = math.huge,
+			  -- Keep image.nvim from clearing and re-rendering images when Molten's
+			  -- output floats overlap the source window.
+			  window_overlap_clear_enabled = false,
+		  },
+	  },
+	  {
+		  "benlubas/molten-nvim",
+		  version = "^1.0.0",
+		  dependencies = { "3rd/image.nvim" },
+		  build = ":UpdateRemotePlugins",
+		  init = function()
+			  vim.g.molten_image_provider = "image.nvim"
+			  -- Keep normal output inline, but render plot images only in the output
+			  -- float opened explicitly through MoltenEnterOutput.
+			  vim.g.molten_auto_open_output = false
+			  vim.g.molten_virt_text_output = true
+			  vim.g.molten_virt_lines_off_by_1 = true
+			  vim.g.molten_image_location = "float"
+			  vim.g.molten_output_win_max_height = 20
+		  end,
+		  config = function()
+			  local output_window = require("output_window")
+			  local calculate_window_position = output_window.calculate_window_position
+
+			  -- Keep the output below its cell when it fits; otherwise move it up to
+			  -- reserve the configured maximum height and border. In shorter windows,
+			  -- clamp to the minimum row and let Molten use the available height.
+			  output_window.calculate_window_position = function(buf_line)
+				  local requested_row = calculate_window_position(buf_line)
+				  local max_row = math.max(1, vim.api.nvim_win_get_height(0) - vim.g.molten_output_win_max_height - 2)
+				  if requested_row <= 0 then
+					  return buf_line > vim.fn.line("w$") and max_row or requested_row
+				  end
+				  return math.min(requested_row, max_row)
+			  end
+		  end,
+	  },
 	      {
 		"quarto-dev/quarto-nvim",
 		dependencies = {
