@@ -6,5 +6,5 @@ export PIPEWIRE_QUANTUM=128/48000
 
 # Start programs as PipeWire JACK client with low-latency
 pw-jack carla &
-pw-jack konfyt
+pw-jack konfyt --carla
 
