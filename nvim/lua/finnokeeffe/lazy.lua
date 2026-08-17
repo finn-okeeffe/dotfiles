@@ -84,6 +84,7 @@ require("lazy").setup({
 	  {"hrsh7th/nvim-cmp"},
 	  {"hrsh7th/cmp-vsnip"},
 	  {"hrsh7th/vim-vsnip"},
+	  {"ray-x/lsp_signature.nvim"},
 	  {"rhysd/conflict-marker.vim"},
 	  {
 		  "3rd/image.nvim",

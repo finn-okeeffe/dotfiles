@@ -13,8 +13,20 @@ local hover_opts = {
     title_pos = "center",
 }
 
+local signature_opts = {
+    bind = true,
+    floating_window = true,
+    floating_window_above_cur_line = true,
+    hint_enable = false,
+    handler_opts = {
+        border = "rounded",
+    },
+}
+
 local on_attach = function(_, bufnr)
     local opts = { buffer = bufnr }
+
+    require("lsp_signature").on_attach(signature_opts, bufnr)
 
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
@@ -24,6 +36,9 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts)
     vim.keymap.set('n', 'K', function()
         vim.lsp.buf.hover(vim.deepcopy(hover_opts))
+    end, opts)
+    vim.keymap.set('i', '<C-k>', function()
+        vim.lsp.buf.signature_help({ border = "rounded" })
     end, opts)
 end
 
