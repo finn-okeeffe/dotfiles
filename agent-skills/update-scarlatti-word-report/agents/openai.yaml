@@ -1,0 +1,5 @@
+interface:
+  display_name: "Update Scarlatti Word Report"
+  short_description: "Version-safe Scarlatti Word report updates"
+  brand_color: "#E4813F"
+  default_prompt: "Use $update-scarlatti-word-report to update this Word report as a new version while preserving Scarlatti styling."

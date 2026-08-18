@@ -1,0 +1,4 @@
+interface:
+  display_name: "Can Finn Eat Here?"
+  short_description: "Check whether a restaurant is suitable for Finn"
+  default_prompt: "Use $can-finn-eat-here-skill to determine whether Finn can eat at this restaurant."

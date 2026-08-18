@@ -1,0 +1,10 @@
+interface:
+  display_name: "Save Response to Obsidian"
+  short_description: "Turn responses into structured Obsidian notes"
+  default_prompt: "Use $obsidian-save-response to save your response as an Obsidian note."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "obsidian"
+      description: "Read and write notes and attachments in an Obsidian vault"

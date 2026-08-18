@@ -1,0 +1,4 @@
+interface:
+  display_name: "Power BI Live Model"
+  short_description: "Query open Power BI Desktop models"
+  default_prompt: "Use $powerbi-live-model to connect to my open Power BI Desktop report and inspect measures."
