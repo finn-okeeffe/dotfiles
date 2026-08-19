@@ -137,4 +137,6 @@ export LESS="-R"
 export PATH=/home/finn/.opencode/bin:$PATH
 
 # Environment variables
-set -a; source .env; set +a
+if [[ -r "$HOME/.env" ]]; then
+  source "$HOME/.env"
+fi

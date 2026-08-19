@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-# Set env
-export PIPEWIRE_QUANTUM=128/48000
+if [[ -r "$HOME/.env" ]]; then
+  source "$HOME/.env"
+fi
+
+# Allow ~/.env to override the default PipeWire buffer size and sample rate.
+export PIPEWIRE_QUANTUM="${PIPEWIRE_QUANTUM:-128/48000}"
 
 # Start programs as PipeWire JACK client with low-latency
 pw-jack carla &
 pw-jack konfyt --carla
-
