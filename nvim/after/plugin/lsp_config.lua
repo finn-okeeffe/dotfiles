@@ -3,7 +3,8 @@ require("mason-lspconfig").setup({
     ensure_installed = {
         "pyright",
         "lua_ls",
-        "clangd"
+        "clangd",
+        "postgres_lsp"
     }
 })
 
@@ -112,6 +113,10 @@ vim.lsp.config('pyright',{
     capabilities = capabilities
 })
 vim.lsp.config('clangd',{
+    on_attach = on_attach,
+    capabilities = capabilities
+})
+vim.lsp.config('postgres_lsp',{
     on_attach = on_attach,
     capabilities = capabilities
 })
