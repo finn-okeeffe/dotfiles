@@ -23,8 +23,8 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 vim.opt.winborder = "rounded"
 
--- scrolling, keep a number of columns at the top/bottom
-vim.opt.scrolloff = 8
+-- Keep a larger margin above and below the cursor for LSP popups.
+vim.opt.scrolloff = 12
 
  -- fast update time
  vim.opt.updatetime = 50

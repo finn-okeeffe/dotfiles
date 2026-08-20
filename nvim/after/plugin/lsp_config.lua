@@ -8,7 +8,9 @@ require("mason-lspconfig").setup({
 })
 
 local hover_opts = {
+    anchor_bias = "above",
     border = "rounded",
+    max_height = 10,
     title = " Hover ",
     title_pos = "center",
 }
@@ -17,6 +19,7 @@ local signature_opts = {
     bind = true,
     floating_window = true,
     floating_window_above_cur_line = true,
+    max_height = 10,
     hint_enable = false,
     handler_opts = {
         border = "rounded",
@@ -38,7 +41,7 @@ local on_attach = function(_, bufnr)
         vim.lsp.buf.hover(vim.deepcopy(hover_opts))
     end, opts)
     vim.keymap.set('i', '<C-k>', function()
-        vim.lsp.buf.signature_help({ border = "rounded" })
+        vim.lsp.buf.signature_help({ anchor_bias = "above", border = "rounded", max_height = 10 })
     end, opts)
 end
 
@@ -49,13 +52,18 @@ end
 local cmp = require'cmp'
 
 cmp.setup({
+view = {
+  entries = {
+    vertical_positioning = 'below',
+  },
+},
 snippet = {
   expand = function(args)
     vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
   end,
 },
 window = {
-    completion = cmp.config.window.bordered(),
+    completion = cmp.config.window.bordered({ max_height = 10 }),
     documentation = cmp.config.window.bordered(),
 },
 mapping = cmp.mapping.preset.insert({
