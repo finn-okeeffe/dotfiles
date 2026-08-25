@@ -27,3 +27,37 @@ After tasks creating or modifying files, spawn separate subagents to review the 
 Any changes to the main artifact should be passed back to the main agent, which can then decide to implement or not implement that suggestion. Updates to documentation and READMEs can be performed by the subagents, rather than by the main agent (unless they are the main artifacts).
 
 Only after the reviewers have ran and any additional changes have been made, run any test suite if present. If any errors arise because of the changes you have made, iterate your code to pass the tests in good faith, then rerun the test suite. Try to minimise the number of times the test suite runs. Test failures due to changes made by the user or other agents outside the scope of your change do not require any code changes, but should be raised to the user.
+
+## Response wording
+
+- In commentary and final replies, avoid stock AI and corporate-software phrasing. Do not use the terms below as filler, vague praise, or substitutes for naming the actual file, function, target, data change, test, or result.
+- These terms are not banned. Retain them when quoting text, referring to an identifier, using established project terminology, or when they are the most accurate words available. Do not distort technical meaning merely to avoid a listed term.
+- Prefer plain English and concrete statements. Say what changed, why it changed, what was checked, what happened, and what remains unknown.
+- Avoid stacking several listed terms into an abstract sentence.
+
+Treat these words and phrases with particular suspicion:
+
+`canonical`; `gate`, `gated`; `readiness`; `mapped`, `mapping`;
+`variant`; `downstream`; `upstream`; `surface`, `surfaced`; `flow`;
+`path`, `codepath`; `lifecycle`; `contract`; `invariant`; `boundary`;
+`layer`; `primitive`; `abstraction`; `orchestration`, `orchestrate`;
+`plumbing`, `plumb`; `wiring`, `wire up`; `scaffold`, `scaffolding`;
+`hook`; `seam`; `affordance`; `mechanism`; `pathway`;
+`integration point`; `touchpoint`; `entry point`; `source of truth`;
+`first-class`; `end-to-end`; `holistic`; `robust`; `resilient`;
+`graceful`, `gracefully`; `seamless`, `seamlessly`; `deterministic`;
+`idempotent`; `explicit`, `explicitly`; `intentional`, `intentionally`;
+`consistent`, `consistently`; `clean`, `cleanly`; `coherent`;
+`comprehensive`; `modular`; `extensible`; `composable`; `reusable`;
+`maintainable`; `production-ready`; `future-proof`;
+`backwards-compatible`; `well-defined`; `well-scoped`; `lightweight`;
+`minimal`; `targeted`; `surgical`; `bounded`; `centralised`; `unified`;
+`consolidated`; `normalised`; `aligned`; `reconciled`; `validated`;
+`sanitised`; `hydrated`; `resolved`; `propagated`; `threaded`; `routed`;
+`delegated`; `encapsulated`; `decoupled`; `isolated`; `preserved`;
+`enforced`; `instrumented`; `exposed`; `consumed`; `emitted`;
+`persisted`; `materialised`; `derived`; `fallback`; `guardrail`;
+`escape hatch`; `happy path`; `failure mode`; `edge case`;
+`blast radius`; `regression`; `parity`; `semantics`; `ownership`;
+`responsibility`; `guarantees`; `assumptions`; `concerns`;
+`dependencies`; `observability`; `telemetry`; `ergonomics`.

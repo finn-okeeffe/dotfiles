@@ -1,0 +1,26 @@
+theme = "gruvbox-dark-hard"
+
+# Match Alacritty's 20px padding on every side.
+margin = [20]
+
+[window]
+mode = "Maximized"
+decorations = "Disabled"
+opacity = 1.0
+
+[fonts]
+family = "Mononoki Nerd Font Mono"
+size = 24
+use-drawable-chars = true
+
+[navigation]
+# Zellij provides tabs and panes.
+mode = "Plain"
+use-split = false
+
+[editor]
+program = "nvim"
+
+[platform]
+# Start the default WSL distribution, then launch zsh and zellij within it.
+windows.shell = { program = "wsl.exe", args = ["--exec", "zsh", "-ilc", "zellij"] }

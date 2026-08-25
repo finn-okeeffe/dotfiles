@@ -1,0 +1,58 @@
+[colors]
+# Gruvbox Dark Hard, matching alacritty/colors.gruvboxdarkhard.toml.
+background = "#1d2021"
+foreground = "#d5c4a1"
+
+# Cursor
+cursor = "#d5c4a1"
+vi-cursor = "#d79921"
+
+# Navigation
+tabs = "#a89984"
+tabs-active = "#d5c4a1"
+bar = "#3c3836"
+split = "#504945"
+
+# Search and selection
+search-match-background = "#d79921"
+search-match-foreground = "#1d2021"
+search-focused-match-background = "#b8bb26"
+search-focused-match-foreground = "#1d2021"
+selection-background = "#504945"
+selection-foreground = "#d5c4a1"
+
+# Hints
+hint-background = "#fabd2f"
+hint-foreground = "#1d2021"
+
+# Normal colours
+black = "#282828"
+red = "#cc241d"
+green = "#98971a"
+yellow = "#d79921"
+blue = "#458588"
+magenta = "#b16286"
+cyan = "#689d6a"
+white = "#a89984"
+
+# Bright colours
+light-black = "#928374"
+light-red = "#fb4934"
+light-green = "#b8bb26"
+light-yellow = "#fabd2f"
+light-blue = "#83a598"
+light-magenta = "#d3869b"
+light-cyan = "#8ec07c"
+light-white = "#ebdbb2"
+light-foreground = "#d5c4a1"
+
+# Dim colours
+dim-black = "#32302f"
+dim-red = "#9d0006"
+dim-green = "#79740e"
+dim-yellow = "#b57614"
+dim-blue = "#076678"
+dim-magenta = "#8f3f71"
+dim-cyan = "#427b58"
+dim-white = "#928374"
+dim-foreground = "#d5c4a1"
