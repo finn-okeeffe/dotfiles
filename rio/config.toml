@@ -24,3 +24,4 @@ program = "nvim"
 [platform]
 # Start the default WSL distribution, then launch zsh and zellij within it.
 windows.shell = { program = "wsl.exe", args = ["--exec", "zsh", "-ilc", "zellij"] }
+linux.shell = { program = "zsh", args = ["-ilc", "zellij"] }
