@@ -110,7 +110,16 @@ vim.lsp.config('lua_ls',{
 })
 vim.lsp.config('pyright',{
     on_attach = on_attach,
-    capabilities = capabilities
+    capabilities = capabilities,
+    on_new_config = function(config, root_dir)
+        local python = root_dir .. "/.venv/bin/python"
+
+        if vim.uv.fs_stat(python) then
+            config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
+                python = { pythonPath = python },
+            })
+        end
+    end,
 })
 vim.lsp.config('clangd',{
     on_attach = on_attach,

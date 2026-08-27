@@ -77,6 +77,82 @@ require("lazy").setup({
 	  {"williamboman/mason.nvim"},
 	  {"williamboman/mason-lspconfig.nvim"},
 	  {"neovim/nvim-lspconfig"},
+	  {
+		  "mfussenegger/nvim-dap",
+		  lazy = false,
+		  dependencies = {
+			  {
+				  "rcarriga/nvim-dap-ui",
+				  dependencies = { "nvim-neotest/nvim-nio" },
+				  opts = {},
+			  },
+		  },
+		  config = function()
+			  local dap = require("dap")
+			  local dapui = require("dapui")
+
+			  dap.providers.configs["project_dap"] = function(bufnr)
+				  local filename = vim.api.nvim_buf_get_name(bufnr)
+				  local root = vim.fs.root(filename, { "pyproject.toml", ".git" })
+
+				  if not root then
+					  return {}
+				  end
+
+				  local configs = require("dap.ext.vscode").getconfigs(root .. "/.nvim/dap.json")
+				  for _, config in ipairs(configs) do
+					  if config.cwd == "${workspaceRoot}" then
+						  config.cwd = root
+					  end
+				  end
+				  return configs
+			  end
+
+			  dap.adapters.python = {
+				  type = "executable",
+				  command = "uv",
+				  args = { "run", "python", "-m", "debugpy.adapter" },
+			  }
+
+			  dap.configurations.python = {
+				  {
+					  type = "python",
+					  request = "launch",
+					  name = "Launch current file (uv)",
+					  program = "${file}",
+					  cwd = "${workspaceFolder}",
+					  python = { "uv", "run", "python" },
+					  console = "integratedTerminal",
+					  justMyCode = true,
+				  },
+				  {
+					  type = "python",
+					  request = "launch",
+					  name = "Launch module (uv)",
+					  module = function()
+						  return vim.fn.input("Python module: ")
+					  end,
+					  cwd = "${workspaceFolder}",
+					  python = { "uv", "run", "python" },
+					  console = "integratedTerminal",
+					  justMyCode = true,
+				  },
+			  }
+
+			  vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Debug: toggle breakpoint" })
+			  vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Debug: start or continue" })
+			  vim.keymap.set("n", "<leader>dn", dap.step_over, { desc = "Debug: step over" })
+			  vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Debug: step into" })
+			  vim.keymap.set("n", "<leader>do", dap.step_out, { desc = "Debug: step out" })
+			  vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "Debug: open REPL" })
+			  vim.keymap.set("n", "<leader>dt", dap.terminate, { desc = "Debug: stop" })
+			  vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Debug: toggle UI" })
+
+			  dap.listeners.after.event_initialized.dapui = function()
+				  dapui.open()
+			  end
+		  end,
+	  },
 	  {"hrsh7th/cmp-nvim-lsp"},
 	  {"hrsh7th/cmp-buffer"},
 	  {"hrsh7th/cmp-path"},

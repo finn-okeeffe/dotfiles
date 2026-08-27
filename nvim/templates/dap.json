@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "python",
+      "request": "launch",
+      "name": "Launch module (uv)",
+      "module": "your_package",
+      "args": [],
+      "cwd": "${workspaceRoot}",
+      "python": [
+        "uv",
+        "run",
+        "python"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
