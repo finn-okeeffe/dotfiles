@@ -4,16 +4,12 @@
     {
       "type": "python",
       "request": "launch",
-      "name": "Launch module (uv)",
+      "name": "Launch module (project environment)",
       "module": "your_package",
       "args": [],
       "cwd": "${workspaceRoot}",
-      "python": [
-        "uv",
-        "run",
-        "python"
-      ],
-      "console": "integratedTerminal",
+      "python": ["${workspaceRoot}/.venv/bin/python"],
+      "console": "externalTerminal",
       "justMyCode": true
     }
   ]

@@ -32,16 +32,26 @@ Project-specific launch entries belong in `.nvim/dap.json` at the project root. 
 [`nvim/templates/dap.json`](nvim/templates/dap.json) as a starting point. Neovim finds
 the closest `pyproject.toml` or `.git` directory above the active file, then reads its
 `.nvim/dap.json` when debugging starts. Use `${workspaceRoot}` for the launch `cwd`;
-the provider replaces it with that project root.
+the provider replaces it with that project root. The template runs the project's
+`.venv/bin/python` directly. debugpy adds its own launcher arguments to this command,
+so it must be a Python executable rather than a multi-part `uv run` command.
+Python debug sessions open in a new Zellij pane and close when the debugged program
+exits. Start Neovim from inside Zellij before launching one.
+When execution stops for an exception, Neovim shows its details in a wrapped floating
+window instead of virtual text. It closes when you continue, stop, or disconnect.
 
-- `<Space>db`: toggle a breakpoint on the current line;
-- `<Space>dc`: start or continue debugging;
-- `<Space>dn`: step over;
-- `<Space>di`: step into;
-- `<Space>do`: step out;
-- `<Space>dr`: open the debug REPL;
-- `<Space>dt`: stop debugging; and
-- `<Space>du`: show or hide the debugger panes.
+| Mode | Shortcut | Action |
+| --- | --- | --- |
+| Normal | `<Space>db` | Toggle a breakpoint on the current line. |
+| Normal | `<Space>dc` | Start or continue debugging. |
+| Normal | `<Space>dn` | Step over. |
+| Normal | `<Space>di` | Step into. |
+| Normal | `<Space>do` | Step out. |
+| Normal | `<Space>dr` | Open and jump to the debug REPL. |
+| Normal | `<Space>de` | Return to the editor window used to start debugging. |
+| Visual | `<Space>de` | Execute the characterwise or linewise Python selection in the debug REPL. |
+| Normal | `<Space>du` | Show or hide the debugger panes and close the REPL window. |
+| Normal | `<Space>dt` | Stop debugging. |
 
 > [!NOTE]
 > This setup uses a development build of Zellij that supports the Kitty graphics protocol for images, so plot rendering works inside Zellij. Do not assume the same support is available in other Zellij builds.

@@ -84,12 +84,155 @@ require("lazy").setup({
 			  {
 				  "rcarriga/nvim-dap-ui",
 				  dependencies = { "nvim-neotest/nvim-nio" },
-				  opts = {},
+				  opts = {
+					  layouts = {
+						  {
+							  elements = {
+								  { id = "scopes", size = 0.25 },
+								  { id = "breakpoints", size = 0.25 },
+								  { id = "stacks", size = 0.25 },
+								  { id = "watches", size = 0.25 },
+							  },
+							  size = 40,
+							  position = "left",
+						  },
+						  {
+							  elements = { "console" },
+							  size = 10,
+							  position = "bottom",
+						  },
+					  },
+				  },
 			  },
 		  },
 		  config = function()
 			  local dap = require("dap")
 			  local dapui = require("dapui")
+			  local debug_editor_win
+			  local exception_float
+			  local exception_request_id = 0
+
+			  local function remember_editor()
+				  local winid = vim.api.nvim_get_current_win()
+				  local buf = vim.api.nvim_win_get_buf(winid)
+				  if vim.bo[buf].buftype == "" then
+					  debug_editor_win = winid
+				  end
+			  end
+
+			  local function jump_to_repl()
+				  remember_editor()
+				  local _, repl_win = dap.repl.open()
+				  vim.api.nvim_set_current_win(repl_win)
+			  end
+
+			  local function jump_to_editor()
+				  if debug_editor_win and vim.api.nvim_win_is_valid(debug_editor_win) then
+					  vim.api.nvim_set_current_win(debug_editor_win)
+				  else
+					  vim.notify("No debug editor window has been recorded", vim.log.levels.WARN)
+				  end
+			  end
+
+			  local function toggle_dap_ui()
+				  dap.repl.close({ mode = "toggle" })
+				  dapui.toggle()
+			  end
+
+			  local function execute_visual_selection()
+				  local start_pos = vim.fn.getpos("v")
+				  local end_pos = vim.fn.getpos(".")
+				  local selection_mode = vim.fn.mode()
+				  if selection_mode == "\22" then
+					  vim.notify("Visual Block selections cannot be executed in the debug REPL", vim.log.levels.WARN)
+					  return
+				  end
+				  if start_pos[2] > end_pos[2] or (start_pos[2] == end_pos[2] and start_pos[3] > end_pos[3]) then
+					  start_pos, end_pos = end_pos, start_pos
+				  end
+				  local bufnr = vim.api.nvim_get_current_buf()
+				  local lines
+				  if selection_mode == "V" then
+					  lines = vim.api.nvim_buf_get_lines(bufnr, start_pos[2] - 1, end_pos[2], false)
+				  else
+					  lines = vim.api.nvim_buf_get_text(
+						  bufnr,
+						  start_pos[2] - 1,
+						  start_pos[3] - 1,
+						  end_pos[2] - 1,
+						  end_pos[3],
+						  {}
+					  )
+				  end
+				  if #lines == 0 then
+					  return
+				  end
+
+				  jump_to_repl()
+				  dap.repl.execute(table.concat(lines, "\n"))
+			  end
+
+			  local function close_exception_float()
+				  exception_request_id = exception_request_id + 1
+				  if exception_float and vim.api.nvim_win_is_valid(exception_float) then
+					  vim.api.nvim_win_close(exception_float, true)
+				  end
+				  exception_float = nil
+			  end
+
+			  local function show_exception_float(session, stopped)
+				  close_exception_float()
+				  if stopped.reason ~= "exception" or not stopped.threadId then
+					  return
+				  end
+
+				  if not session.capabilities.supportsExceptionInfoRequest then
+					  return
+				  end
+				  vim.diagnostic.config({ virtual_text = false }, session.ns)
+
+				  local request_id = exception_request_id
+				  session:request("exceptionInfo", { threadId = stopped.threadId }, function(err, response)
+					  if err or not response or request_id ~= exception_request_id then
+						  return
+					  end
+
+					  local details = response.details or {}
+					  local lines = { details.typeName or "Exception" }
+					  local description = response.description or details.message
+					  if description then
+						  vim.list_extend(lines, vim.split(description, "\n", { plain = true }))
+					  end
+					  if details.stackTrace then
+						  table.insert(lines, "")
+						  table.insert(lines, "Stack trace:")
+						  vim.list_extend(lines, vim.split(details.stackTrace, "\n", { plain = true }))
+					  end
+
+					  local _, winid = vim.lsp.util.open_floating_preview(lines, "plaintext", {
+						  border = "rounded",
+						  close_events = {},
+						  focus = false,
+						  max_height = math.floor(vim.o.lines * 0.5),
+						  max_width = math.floor(vim.o.columns * 0.7),
+						  title = "Exception",
+						  title_pos = "center",
+						  wrap = true,
+					  })
+					  exception_float = winid
+				  end)
+			  end
+			  local function project_python()
+				  local root = vim.fs.root(0, { "pyproject.toml", ".git" })
+				  local python = root and root .. "/.venv/bin/python"
+
+				  if python and vim.uv.fs_stat(python) then
+					  return python
+				  end
+
+				  local python_on_path = vim.fn.exepath("python")
+				  return python_on_path ~= "" and python_on_path or "python"
+			  end
 
 			  dap.providers.configs["project_dap"] = function(bufnr)
 				  local filename = vim.api.nvim_buf_get_name(bufnr)
@@ -104,53 +247,79 @@ require("lazy").setup({
 					  if config.cwd == "${workspaceRoot}" then
 						  config.cwd = root
 					  end
+					  local workspace_python = "${workspaceRoot}/.venv/bin/python"
+					  local project_python_path = root .. "/.venv/bin/python"
+					  if config.python == workspace_python then
+						  config.python = project_python_path
+					  elseif type(config.python) == "table" and config.python[1] == workspace_python then
+						  config.python[1] = project_python_path
+					  end
 				  end
 				  return configs
 			  end
 
-			  dap.adapters.python = {
-				  type = "executable",
-				  command = "uv",
-				  args = { "run", "python", "-m", "debugpy.adapter" },
+			  dap.adapters.python = function(callback)
+				  callback({
+					  type = "executable",
+					  command = project_python(),
+					  args = { "-m", "debugpy.adapter" },
+				  })
+			  end
+
+			  dap.defaults.python.external_terminal = {
+				  command = "zellij",
+				  args = { "action", "new-pane", "--close-on-exit", "--" },
 			  }
 
 			  dap.configurations.python = {
 				  {
 					  type = "python",
 					  request = "launch",
-					  name = "Launch current file (uv)",
+					  name = "Launch current file (project environment)",
 					  program = "${file}",
 					  cwd = "${workspaceFolder}",
-					  python = { "uv", "run", "python" },
-					  console = "integratedTerminal",
+					  python = project_python,
+					  console = "externalTerminal",
 					  justMyCode = true,
 				  },
 				  {
 					  type = "python",
 					  request = "launch",
-					  name = "Launch module (uv)",
+					  name = "Launch module (project environment)",
 					  module = function()
 						  return vim.fn.input("Python module: ")
 					  end,
 					  cwd = "${workspaceFolder}",
-					  python = { "uv", "run", "python" },
-					  console = "integratedTerminal",
+					  python = project_python,
+					  console = "externalTerminal",
 					  justMyCode = true,
 				  },
 			  }
 
 			  vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Debug: toggle breakpoint" })
-			  vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Debug: start or continue" })
+			  vim.keymap.set("n", "<leader>dc", function()
+				  remember_editor()
+				  dap.continue()
+			  end, { desc = "Debug: start or continue" })
 			  vim.keymap.set("n", "<leader>dn", dap.step_over, { desc = "Debug: step over" })
 			  vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Debug: step into" })
 			  vim.keymap.set("n", "<leader>do", dap.step_out, { desc = "Debug: step out" })
-			  vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "Debug: open REPL" })
+			  vim.keymap.set("n", "<leader>dr", jump_to_repl, { desc = "Debug: jump to REPL" })
+			  vim.keymap.set("n", "<leader>de", jump_to_editor, { desc = "Debug: jump to editor" })
+			  vim.keymap.set("x", "<leader>de", execute_visual_selection, { desc = "Debug: execute selection" })
 			  vim.keymap.set("n", "<leader>dt", dap.terminate, { desc = "Debug: stop" })
-			  vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Debug: toggle UI" })
+			  vim.keymap.set("n", "<leader>du", toggle_dap_ui, { desc = "Debug: toggle UI" })
 
 			  dap.listeners.after.event_initialized.dapui = function()
 				  dapui.open()
 			  end
+			  dap.listeners.after.event_stopped.exception_float = show_exception_float
+			  dap.listeners.after.event_continued.exception_float = function(session)
+				  close_exception_float()
+				  vim.diagnostic.reset(session.ns)
+			  end
+			  dap.listeners.after.event_terminated.exception_float = close_exception_float
+			  dap.listeners.after.disconnect.exception_float = close_exception_float
 		  end,
 	  },
 	  {"hrsh7th/cmp-nvim-lsp"},
