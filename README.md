@@ -51,6 +51,7 @@ window instead of virtual text. It closes when you continue, stop, or disconnect
 | Normal | `<Space>de` | Return to the editor window used to start debugging. |
 | Visual | `<Space>de` | Execute the characterwise or linewise Python selection in the debug REPL. |
 | Normal | `<Space>du` | Show or hide the debugger panes and close the REPL window. |
+| Normal | `<Space>dx` | Show or hide the most recent exception window while paused. |
 | Normal | `<Space>dt` | Stop debugging. |
 
 > [!NOTE]

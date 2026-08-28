@@ -110,6 +110,7 @@ require("lazy").setup({
 			  local dapui = require("dapui")
 			  local debug_editor_win
 			  local exception_float
+			  local exception_lines
 			  local exception_request_id = 0
 
 			  local function remember_editor()
@@ -180,8 +181,36 @@ require("lazy").setup({
 				  exception_float = nil
 			  end
 
+			  local function open_exception_float()
+				  if not exception_lines then
+					  return false
+				  end
+
+				  local _, winid = vim.lsp.util.open_floating_preview(exception_lines, "plaintext", {
+					  border = "rounded",
+					  close_events = {},
+					  focus = false,
+					  max_height = math.floor(vim.o.lines * 0.5),
+					  max_width = math.floor(vim.o.columns * 0.7),
+					  title = "Exception",
+					  title_pos = "center",
+					  wrap = true,
+				  })
+				  exception_float = winid
+				  return true
+			  end
+
+			  local function toggle_exception_float()
+				  if exception_float and vim.api.nvim_win_is_valid(exception_float) then
+					  close_exception_float()
+				  elseif not open_exception_float() then
+					  vim.notify("No exception details are available", vim.log.levels.WARN)
+				  end
+			  end
+
 			  local function show_exception_float(session, stopped)
 				  close_exception_float()
+				  exception_lines = nil
 				  if stopped.reason ~= "exception" or not stopped.threadId then
 					  return
 				  end
@@ -209,17 +238,8 @@ require("lazy").setup({
 						  vim.list_extend(lines, vim.split(details.stackTrace, "\n", { plain = true }))
 					  end
 
-					  local _, winid = vim.lsp.util.open_floating_preview(lines, "plaintext", {
-						  border = "rounded",
-						  close_events = {},
-						  focus = false,
-						  max_height = math.floor(vim.o.lines * 0.5),
-						  max_width = math.floor(vim.o.columns * 0.7),
-						  title = "Exception",
-						  title_pos = "center",
-						  wrap = true,
-					  })
-					  exception_float = winid
+					  exception_lines = lines
+					  open_exception_float()
 				  end)
 			  end
 			  local function project_python()
@@ -309,6 +329,7 @@ require("lazy").setup({
 			  vim.keymap.set("x", "<leader>de", execute_visual_selection, { desc = "Debug: execute selection" })
 			  vim.keymap.set("n", "<leader>dt", dap.terminate, { desc = "Debug: stop" })
 			  vim.keymap.set("n", "<leader>du", toggle_dap_ui, { desc = "Debug: toggle UI" })
+			  vim.keymap.set("n", "<leader>dx", toggle_exception_float, { desc = "Debug: toggle exception" })
 
 			  dap.listeners.after.event_initialized.dapui = function()
 				  dapui.open()
@@ -316,10 +337,17 @@ require("lazy").setup({
 			  dap.listeners.after.event_stopped.exception_float = show_exception_float
 			  dap.listeners.after.event_continued.exception_float = function(session)
 				  close_exception_float()
+				  exception_lines = nil
 				  vim.diagnostic.reset(session.ns)
 			  end
-			  dap.listeners.after.event_terminated.exception_float = close_exception_float
-			  dap.listeners.after.disconnect.exception_float = close_exception_float
+			  dap.listeners.after.event_terminated.exception_float = function()
+				  close_exception_float()
+				  exception_lines = nil
+			  end
+			  dap.listeners.after.disconnect.exception_float = function()
+				  close_exception_float()
+				  exception_lines = nil
+			  end
 		  end,
 	  },
 	  {"hrsh7th/cmp-nvim-lsp"},
