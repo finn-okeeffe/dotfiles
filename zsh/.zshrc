@@ -74,3 +74,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export GALLIUM_DRIVER=d3d12
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line

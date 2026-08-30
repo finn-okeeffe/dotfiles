@@ -28,22 +28,24 @@ local signature_opts = {
 }
 
 local on_attach = function(_, bufnr)
-    local opts = { buffer = bufnr }
+    local function map(mode, lhs, rhs, desc)
+        vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+    end
 
     require("lsp_signature").on_attach(signature_opts, bufnr)
 
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+    map('n', '<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
+    map('n', '<leader>ca', vim.lsp.buf.code_action, 'Show code actions')
 
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts)
-    vim.keymap.set('n', 'K', function()
+    map('n', 'gd', vim.lsp.buf.definition, 'Go to definition')
+    map('n', 'gi', vim.lsp.buf.implementation, 'Go to implementation')
+    map('n', 'gr', require('telescope.builtin').lsp_references, 'Find references')
+    map('n', 'K', function()
         vim.lsp.buf.hover(vim.deepcopy(hover_opts))
-    end, opts)
-    vim.keymap.set('i', '<C-k>', function()
+    end, 'Show hover information')
+    map('i', '<C-k>', function()
         vim.lsp.buf.signature_help({ anchor_bias = "above", border = "rounded", max_height = 10 })
-    end, opts)
+    end, 'Show signature help')
 end
 
 

@@ -27,7 +27,11 @@ quarto.setup{
 }
 
 -- keymaps
-vim.keymap.set('n', '<leader>qp', quarto.quartoPreview, { silent = true, noremap = true })
+vim.keymap.set('n', '<leader>qp', quarto.quartoPreview, {
+  desc = "preview Quarto document",
+  silent = true,
+  noremap = true,
+})
 vim.keymap.set("n", "<localleader>mi", ":MoltenInit<CR>", { desc = "initialise Molten", silent = true })
 vim.keymap.set("n", "<localleader>os", ":noautocmd MoltenEnterOutput<CR>", { desc = "show Molten output", silent = true })
 vim.keymap.set("n", "<localleader>oh", ":MoltenHideOutput<CR>", { desc = "hide Molten output", silent = true })

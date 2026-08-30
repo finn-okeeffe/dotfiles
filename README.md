@@ -12,6 +12,12 @@ Before using this setup, provide:
 
 Neovim automatically discovers the `pynvim-python` executable installed by a current `pynvim` uv tool. The Jupyter kernel may use a separate project environment; it does not need to share Molten's Python-provider environment.
 
+## Keymap help
+
+Press `<Space>?` in Normal mode to open the which-key help pane. It lists the
+available keymaps and their descriptions; type part of a key sequence to narrow the
+list or press `<Esc>` to close it.
+
 ## Python language server and debugger
 
 Start Neovim normally with `nvim` from a project directory or one of its children; it

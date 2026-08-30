@@ -74,6 +74,26 @@ require("lazy").setup({
 		  end,
 	  },
 	  {'mbbill/undotree'},
+	  {
+		  "folke/which-key.nvim",
+		  event = "VeryLazy",
+		  opts = {
+			  spec = {
+				  { "<leader>d", group = "Debug" },
+				  { "<leader>f", group = "Find" },
+				  { "<leader>q", group = "Quarto" },
+			  },
+		  },
+		  keys = {
+			  {
+				  "<leader>?",
+				  function()
+					  require("which-key").show()
+				  end,
+				  desc = "Show keymap help",
+			  },
+		  },
+	  },
 	  {"williamboman/mason.nvim"},
 	  {"williamboman/mason-lspconfig.nvim"},
 	  {"neovim/nvim-lspconfig"},
