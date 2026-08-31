@@ -18,6 +18,52 @@ Press `<Space>?` in Normal mode to open the which-key help pane. It lists the
 available keymaps and their descriptions; type part of a key sequence to narrow the
 list or press `<Esc>` to close it.
 
+## PostgreSQL queries
+
+The Neovim configuration uses Dadbod and Dadbod UI to browse PostgreSQL databases,
+edit queries, and show query results. Install the PostgreSQL command-line client so
+that `psql` is available in WSL; the plugins do not install it themselves.
+
+Put connection URLs in an ignored `.env` file at the root of each project. Dadbod UI
+uses variables beginning with `DB_UI_`; the rest of each variable name, lowercased,
+becomes the connection name:
+
+```dotenv
+DB_UI_DEV=postgresql://user:password@localhost:5432/database
+DB_UI_TEST=postgresql://user:password@localhost:5432/database_test
+```
+
+Do not commit this file. Prefer a development database or a database user whose
+permissions limit unwanted writes.
+
+Open Neovim from the project, then use `<Space>sd` to open the database drawer. From
+there, expand a connection to browse its schemas and tables or create a new query.
+For an existing `.sql` file, use `<Space>sf` and choose the connection to assign to
+that buffer before running it. Query results open in Dadbod's results window.
+
+| Mode | Shortcut | Action |
+| --- | --- | --- |
+| Normal | `<Space>sd` | Show or hide the database drawer. |
+| Normal | `<Space>sf` | Choose a connection for the current SQL file or find it in the drawer. |
+| Normal | `<Space>sr` | Run the entire SQL file. |
+| Visual | `<Space>sr` | Run the selected SQL. |
+| Normal | `<Space>ss` | Save a DBUI query for later use. |
+| Normal | `<Space>sp` | Edit bind parameters used by the current query. |
+
+Writing (`:write` or `:w`) a query created by DBUI runs it. After `<Space>sf` assigns
+an ordinary SQL file to DBUI, writing that file also runs it. Dadbod sends the SQL as
+written, so a query containing `INSERT`, `UPDATE`, `DELETE`, or DDL can change the
+selected database.
+
+`postgres_lsp` supplies PostgreSQL syntax checks, formatting, and code actions. It
+starts only in projects containing `postgres-language-server.jsonc`. Copy
+[`nvim/templates/postgres-language-server.jsonc`](nvim/templates/postgres-language-server.jsonc)
+to the project root for checks that do not connect the language server to a database.
+Dadbod completion still supplies schema, table, and column suggestions from the
+connection assigned to the SQL buffer. Database-aware LSP type checks require adding
+a local development connection to that project file; consult the Postgres Language
+Server documentation before doing so, and keep credentials out of version control.
+
 ## Python language server and debugger
 
 Start Neovim normally with `nvim` from a project directory or one of its children; it

@@ -47,6 +47,7 @@ require("lazy").setup({
 				  "query",
 				  "markdown",
 				  "markdown_inline",
+				  "sql",
 			  }
 
 			  require("nvim-treesitter").setup()
@@ -82,6 +83,7 @@ require("lazy").setup({
 				  { "<leader>d", group = "Debug" },
 				  { "<leader>f", group = "Find" },
 				  { "<leader>q", group = "Quarto" },
+				  { "<leader>s", group = "SQL" },
 			  },
 		  },
 		  keys = {
@@ -379,6 +381,32 @@ require("lazy").setup({
 	  {"hrsh7th/vim-vsnip"},
 	  {"ray-x/lsp_signature.nvim"},
 	  {"rhysd/conflict-marker.vim"},
+	  {
+		  "kristijanhusak/vim-dadbod-ui",
+		  cmd = {
+			  "DBUI",
+			  "DBUIToggle",
+			  "DBUIAddConnection",
+			  "DBUIFindBuffer",
+		  },
+		  keys = {
+			  { "<leader>sd", "<cmd>DBUIToggle<CR>", desc = "SQL: toggle database drawer" },
+		  },
+		  ft = { "sql" },
+		  dependencies = {
+			  { "tpope/vim-dadbod", lazy = true },
+			  { "tpope/vim-dotenv", lazy = true },
+			  { "kristijanhusak/vim-dadbod-completion", ft = { "sql" }, lazy = true },
+		  },
+		  init = function()
+			  vim.g.db_ui_disable_mappings_sql = 1
+			  vim.g.db_ui_use_nerd_fonts = 1
+			  vim.g.db_ui_use_nvim_notify = 1
+		  end,
+		  config = function()
+			  require("finnokeeffe.sql").setup()
+		  end,
+	  },
 	  {
 		  "3rd/image.nvim",
 		  build = false,

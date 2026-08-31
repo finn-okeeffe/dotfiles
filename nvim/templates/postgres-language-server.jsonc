@@ -1,0 +1,16 @@
+{
+  "$schema": "https://pg-language-server.com/latest/schema.json",
+  "db": {
+    "disableConnection": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "format": {
+    "enabled": true,
+    "keywordCase": "lower"
+  }
+}
