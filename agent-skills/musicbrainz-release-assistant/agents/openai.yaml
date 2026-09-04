@@ -1,0 +1,7 @@
+interface:
+  display_name: "MusicBrainz Release Assistant"
+  short_description: "Research and prepare MusicBrainz releases"
+  default_prompt: "Use $musicbrainz-release-assistant to check this release and prepare a reviewed MusicBrainz submission pack."
+
+policy:
+  allow_implicit_invocation: true
