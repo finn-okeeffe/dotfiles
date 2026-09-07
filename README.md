@@ -1,3 +1,27 @@
+# Codex pets
+
+The Rikka pet is stored in `codex/pets/rikka`. Its `pet.json` uses a relative
+spritesheet path, so the two files can be copied together onto another computer.
+After cloning or pulling this repo, run the appropriate commands from its root.
+Run them again to copy future pet updates.
+
+Linux or macOS:
+
+```sh
+pet_home="${CODEX_HOME:-$HOME/.codex}"
+mkdir -p "$pet_home/pets/rikka"
+cp codex/pets/rikka/pet.json codex/pets/rikka/spritesheet.webp "$pet_home/pets/rikka/"
+```
+
+Windows (PowerShell):
+
+```powershell
+$petHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $HOME '.codex' }
+$petDestination = Join-Path $petHome 'pets/rikka'
+New-Item -ItemType Directory -Force -Path $petDestination | Out-Null
+Copy-Item -Path 'codex/pets/rikka/pet.json', 'codex/pets/rikka/spritesheet.webp' -Destination $petDestination -Force
+```
+
 # Neovim notebook and plotting support
 
 The Neovim configuration uses `molten.nvim` to run Jupyter code and `image.nvim` to display plot output. `lazy.nvim` installs these plugins, but it does not install their system or Python dependencies.
