@@ -26,23 +26,6 @@ require("lazy").setup({
   spec = {
 	  {'nvim-lua/plenary.nvim'},
 	  {
-		  "nwiizo/codex.nvim",
-		  cmd = {
-			  "Codex", "CodexOpen", "CodexClose", "CodexFocus", "CodexStop",
-			  "CodexResume", "CodexContinue", "CodexFork", "CodexReview",
-			  "CodexImage", "CodexPrompt", "CodexSend", "CodexSendVisual",
-			  "CodexAddVisual", "CodexAdd", "CodexTreeAdd", "CodexSendText",
-			  "CodexDiff", "CodexInterrupt", "CodexStatus", "CodexHealth",
-		  },
-		  keys = {
-			  { "<leader>ax", "<cmd>CodexFocus<CR>", desc = "Codex: focus or hide" },
-			  { "<leader>ab", "<cmd>CodexAdd<CR>", desc = "Codex: add current file" },
-			  { "<leader>aa", ":<C-U>CodexAddVisual<CR>", mode = "x", desc = "Codex: add selection to prompt" },
-			  { "<leader>as", ":<C-U>CodexSendVisual<CR>", mode = "x", desc = "Codex: send selection" },
-		  },
-		  opts = {},
-	  },
-	  {
 		  'nvim-telescope/telescope.nvim', branch = 'master',
 		  dependencies = {'nvim-lua/plenary.nvim'}
 	  },
@@ -97,7 +80,6 @@ require("lazy").setup({
 		  event = "VeryLazy",
 		  opts = {
 			  spec = {
-				  { "<leader>a", group = "Codex" },
 				  { "<leader>d", group = "Debug" },
 				  { "<leader>f", group = "Find" },
 				  { "<leader>q", group = "Quarto" },
