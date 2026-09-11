@@ -22,6 +22,23 @@ New-Item -ItemType Directory -Force -Path $petDestination | Out-Null
 Copy-Item -Path 'codex/pets/rikka/pet.json', 'codex/pets/rikka/spritesheet.webp' -Destination $petDestination -Force
 ```
 
+# Yazi clipboard copying in WSL
+
+In Yazi, press `<C-y>` to copy the hovered file to the Windows clipboard. The
+`copy-file-contents` command is made available by `zsh/.zshrc` and handles the
+following file types:
+
+- recognised plain-text extensions are copied as text;
+- JPEG, PNG, GIF, BMP, TIFF, and ICO files are copied as images;
+- WebP, AVIF, HEIC, HEIF, and SVG files are converted to PNG before copying, which
+  requires ImageMagick's `magick` command; and
+- PDFs are copied as Windows file items, ready to paste into File Explorer or an
+  application that accepts files.
+
+Other file extensions print an error instead of copying data. This setup requires
+WSL access to `powershell.exe` and `clip.exe`, which are available in a standard WSL
+installation.
+
 # Neovim notebook and plotting support
 
 The Neovim configuration uses `molten.nvim` to run Jupyter code and `image.nvim` to display plot output. `lazy.nvim` installs these plugins, but it does not install their system or Python dependencies.
