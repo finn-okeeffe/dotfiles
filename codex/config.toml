@@ -1,0 +1,95 @@
+model = "gpt-6-astra"
+model_reasoning_effort = "high"
+approvals_reviewer = "auto_review"
+service_tier = "default"
+[projects."/home/finnokeeffe/ai-space"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/git/dockerfiles"]
+trust_level = "trusted"
+
+[projects."/mnt/c/Users/FinnO'Keeffe/Scarlatti/Clients - Documents/Bragato/Integrated PM tool/1. Meeting notes/C. 6 July 2026"]
+trust_level = "trusted"
+
+[projects."/mnt/c/Users/FinnO'Keeffe/Scarlatti/Clients - Documents/ISBs - Joint/Workforce research ideas - July 2026"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/git/tfp-web-tool-poc"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/git/workforce-labour-model"]
+trust_level = "trusted"
+
+[projects."/workspace"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/ccnz-workforce-planner"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/git/dotfiles"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/ccnz-workforce-planner/models"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/ccnz-model-diagnostics"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/testing-bayesian-big-data"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/DUCKY/super-ducky"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/explore-model-results"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/prototype-idi-fitting"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/integrated-sdp-and-wip-proposal"]
+trust_level = "trusted"
+
+[projects."/mnt/c/Users/FinnO'Keeffe/OneDrive - Scarlatti/Documents/timesheets"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/scarlatti-tools"]
+trust_level = "trusted"
+
+[projects."/mnt/c/Users/FinnO'Keeffe/Scarlatti/Clients - Documents/Stats NZ/IDI code modules/Notes/1. RFP Catchup 31-08-2026"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/stats-nz-code-modules"]
+trust_level = "trusted"
+
+[tui]
+session_picker_view = "dense"
+status_line = ["model-with-reasoning", "current-dir", "weekly-limit", "used-tokens"]
+status_line_use_colors = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 4
+gpt-6-astra = 4
+
+[mcp_servers.obsidian]
+command = "npx"
+args = ["@bitbonsai/mcpvault@0.12.5", "/home/finnokeeffe/obsidian-vault"]
+
+[mcp_servers.obsidian.tools.list_directory]
+approval_mode = "approve"
+
+[mcp_servers.obsidian.tools.read_note]
+approval_mode = "approve"
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+
+[tui.keymap.chat]
+edit_queued_message = "alt-shift-up"

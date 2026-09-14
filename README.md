@@ -1,3 +1,20 @@
+# Codex configuration
+
+`codex/config.toml` holds the Codex configuration. On Linux or WSL,
+`~/.codex/config.toml` links to this file, so edits through either location change
+the repository copy. Review its machine-specific local paths before using it on
+another computer.
+
+Before linking, back up any existing `~/.codex/config.toml` outside this repository
+and remove it from that location. Then run these commands from the repository root:
+
+```sh
+mkdir -p "$HOME/.codex"
+ln -s "$PWD/codex/config.toml" "$HOME/.codex/config.toml"
+```
+
+Skip the link command if `~/.codex/config.toml` already points to this repository.
+
 # Codex pets
 
 The Rikka pet is stored in `codex/pets/rikka`. Its `pet.json` uses a relative
