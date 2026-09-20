@@ -23,6 +23,9 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 vim.opt.winborder = "rounded"
 
+-- Render concealed Markdown syntax, including Obsidian checkbox and link icons.
+vim.opt.conceallevel = 1
+
 -- Keep a larger margin above and below the cursor for LSP popups.
 vim.opt.scrolloff = 12
 
