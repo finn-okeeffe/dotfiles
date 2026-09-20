@@ -1,5 +1,5 @@
-model = "gpt-6-astra"
-model_reasoning_effort = "high"
+model = "gpt-5.6-luna"
+model_reasoning_effort = "xhigh"
 approvals_reviewer = "auto_review"
 service_tier = "default"
 [projects."/home/finnokeeffe/ai-space"]
@@ -66,6 +66,12 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/home/finnokeeffe/Projects/stats-nz-code-modules"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/local-documents"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/scripts"]
 trust_level = "trusted"
 
 [tui]

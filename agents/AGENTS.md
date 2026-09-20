@@ -13,21 +13,6 @@ Never modify anything in sharepoint (or symlinked to a file or folder in sharepo
 ## Artifacts and outputs
 Whenever creating artifacts or outputs - such as a document, presentation, spreadsheet, website, or image, assume the design should follow the Scarlatti design guidelines and use the corresponding skill,unless directed otherwise by the user
 
-## Reviewing outputs
-After tasks creating or modifying files, spawn separate subagents to review the outputs. These reviews and documentation updates should be strictly scoped to the changes made as part of the main task. These outputs could be code changes, or documents. Do not perform these checks for chat-only interactions. Spawn one subagent per bullet point:
-
-- Review code, checking for where new code could be replaced with existing code to keep the results concise.
-- Review module, class, and function lengths, suggesting where they could be broken out into new modules, classes, or functions to keep code concise.
-- Review the outputs in relation to the users original request, making sure it is aligned with the user's intent.
-- Review for logical consistency - suggesting fixes to align with the users original intention. Any logical issues with the user's design should be flagged back to them, rather than modifying their requested logic.
-- If the output is a code change and the project contains a test suite, spawn an agent to determine if the test suite needs to be updated. If it does, update the test suite.
-- If any new environment variables were added, ask the user if they would like to add them to the .env template.
-- Update any docstrings, documentation, or READMEs for the project.
-
-Any changes to the main artifact should be passed back to the main agent, which can then decide to implement or not implement that suggestion. Updates to documentation and READMEs can be performed by the subagents, rather than by the main agent (unless they are the main artifacts).
-
-Only after the reviewers have ran and any additional changes have been made, run any test suite if present. If any errors arise because of the changes you have made, iterate your code to pass the tests in good faith, then rerun the test suite. Try to minimise the number of times the test suite runs. Test failures due to changes made by the user or other agents outside the scope of your change do not require any code changes, but should be raised to the user.
-
 ## Response wording
 
 - In commentary and final replies, avoid stock AI and corporate-software phrasing. Do not use the terms below as filler, vague praise, or substitutes for naming the actual file, function, target, data change, test, or result.

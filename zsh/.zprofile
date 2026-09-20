@@ -11,3 +11,9 @@ autoload edit-command-line; zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
 alias icat='kitten icat'
+alias codex='UV_CACHE_DIR=/tmp/codex-uv-cache codex'
+
+# Asana CLI
+export PATH="$HOME/go/bin:$PATH"
+source <(asana completion zsh)
+asana completion zsh > "${fpath[1]}/_asana"

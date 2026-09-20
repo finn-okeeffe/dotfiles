@@ -24,7 +24,10 @@ vim.g.maplocalleader = "\\"
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
+	  { "tpope/vim-dotenv", lazy = false },
 	  {'nvim-lua/plenary.nvim'},
+      {'yorickpeterse/nvim-pqf'},
+      {'akinsho/git-conflict.nvim', version = "*", config = true},
 	  {
 		  'nvim-telescope/telescope.nvim', branch = 'master',
 		  dependencies = {'nvim-lua/plenary.nvim'}
@@ -84,6 +87,7 @@ require("lazy").setup({
 				  { "<leader>f", group = "Find" },
 				  { "<leader>q", group = "Quarto" },
 				  { "<leader>s", group = "SQL" },
+                  { "<leader>m", group = "Git merge conflict" },
 			  },
 		  },
 		  keys = {
@@ -395,7 +399,6 @@ require("lazy").setup({
 		  ft = { "sql" },
 		  dependencies = {
 			  { "tpope/vim-dadbod", lazy = true },
-			  { "tpope/vim-dotenv", lazy = true },
 			  { "kristijanhusak/vim-dadbod-completion", ft = { "sql" }, lazy = true },
 		  },
 		  init = function()

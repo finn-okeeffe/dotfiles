@@ -1,7 +1,8 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = {
-        "pyright",
+        -- Avoid slow NumPy signature help observed with 1.1.413 and 1.1.414.
+        "pyright@1.1.400",
         "lua_ls",
         "clangd",
         "postgres_lsp"
@@ -16,23 +17,10 @@ local hover_opts = {
     title_pos = "center",
 }
 
-local signature_opts = {
-    bind = true,
-    floating_window = true,
-    floating_window_above_cur_line = true,
-    max_height = 10,
-    hint_enable = false,
-    handler_opts = {
-        border = "rounded",
-    },
-}
-
 local on_attach = function(_, bufnr)
     local function map(mode, lhs, rhs, desc)
         vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
     end
-
-    require("lsp_signature").on_attach(signature_opts, bufnr)
 
     map('n', '<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
     map('n', '<leader>ca', vim.lsp.buf.code_action, 'Show code actions')
@@ -123,13 +111,20 @@ vim.lsp.config('lua_ls',{
 vim.lsp.config('pyright',{
     on_attach = on_attach,
     capabilities = capabilities,
-    on_new_config = function(config, root_dir)
+    exit_timeout = 2000,
+    before_init = function(_, config)
+        local root_dir = config.root_dir
+        if not root_dir then
+            return
+        end
+
         local python = root_dir .. "/.venv/bin/python"
 
-        if vim.uv.fs_stat(python) then
-            config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
-                python = { pythonPath = python },
-            })
+        if vim.fn.executable(python) == 1 then
+            -- Update the settings table already shared with the LSP client.
+            config.settings = config.settings or {}
+            config.settings.python = config.settings.python or {}
+            config.settings.python.pythonPath = python
         end
     end,
 })

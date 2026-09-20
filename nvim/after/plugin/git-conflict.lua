@@ -1,0 +1,7 @@
+vim.keymap.set('n', '<leader>mo', '<Plug>(git-conflict-ours)', { desc = 'Select the current changes' })
+vim.keymap.set('n', '<leader>mt', '<Plug>(git-conflict-theirs)', { desc = 'Select the incoming changes' })
+vim.keymap.set('n', '<leader>mb', '<Plug>(git-conflict-both)', { desc = 'Select both changes' })
+vim.keymap.set('n', '<leader>m0', '<Plug>(git-conflict-none)', { desc = 'Select none of the changes' })
+vim.keymap.set('n', '<leader>mp', '<Plug>(git-conflict-prev-conflict)', { desc = 'Move to previous conflict' })
+vim.keymap.set('n', '<leader>mn', '<plug>(git-conflict-next-conflict)', { desc = 'Move to next conflict' })
+vim.keymap.set('n', '<leader>ml', '<plug>(git-conflict-list-qf)', { desc = 'List all conflicts to quickfix' })

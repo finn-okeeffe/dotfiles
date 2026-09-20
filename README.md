@@ -76,6 +76,17 @@ Press `<Space>?` in Normal mode to open the which-key help pane. It lists the
 available keymaps and their descriptions; type part of a key sequence to narrow the
 list or press `<Esc>` to close it.
 
+## Environment variables
+
+Neovim inherits exported variables from the shell that starts it. `vim-dotenv`
+loads at startup, independently of Dadbod. To import a file into the current
+Neovim session, run `:Dotenv .env` from its directory or supply the full filename.
+Bare `:Dotenv` displays values rather than importing them.
+
+Read a variable with `:echo $VAR` or `:lua print(vim.env.VAR)`. Newly started child
+processes inherit these variables; restart existing terminals or kernels when
+they need the updated values.
+
 ## PostgreSQL queries
 
 The Neovim configuration uses Dadbod and Dadbod UI to browse PostgreSQL databases,
