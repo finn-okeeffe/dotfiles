@@ -52,9 +52,10 @@ Claude Code uses the same instructions and skills as Codex, plus its own files i
 | `~/.claude/statusline.sh` | `claude/statusline.sh` |
 
 `claude/settings.json` sets the model (Opus at max effort), starts sessions in auto
-permission mode, pre-approves the Obsidian `list_directory` and `read_note` tools, and
-runs `claude/statusline.sh`. The status line shows the model and effort, current
-directory, weekly usage limit, and tokens in the context window. It needs `jq`.
+permission mode, and runs `claude/statusline.sh`. It pre-approves the Obsidian
+`list_directory` and `read_note` tools, `git push`, `py-spy dump` and `py-spy record`.
+The status line shows the model and effort, current directory, weekly usage limit, and
+tokens in the context window. It needs `jq`.
 
 Before linking, back up any existing files at those paths and remove them. Then run
 these commands from the repository root:

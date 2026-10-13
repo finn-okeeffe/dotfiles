@@ -3,7 +3,10 @@
   "permissions": {
     "allow": [
       "mcp__obsidian__list_directory",
-      "mcp__obsidian__read_note"
+      "mcp__obsidian__read_note",
+      "Bash(git push *)",
+      "Bash(py-spy dump:*)",
+      "Bash(py-spy record:*)"
     ],
     "defaultMode": "auto"
   },
