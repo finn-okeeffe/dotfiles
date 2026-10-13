@@ -1,7 +1,7 @@
-model = "gpt-5.6-luna"
-model_reasoning_effort = "xhigh"
+model = "gpt-6-astra"
+model_reasoning_effort = "high"
 approvals_reviewer = "auto_review"
-service_tier = "default"
+service_tier = "fast"
 [projects."/home/finnokeeffe/ai-space"]
 trust_level = "trusted"
 
@@ -74,15 +74,17 @@ trust_level = "trusted"
 [projects."/home/finnokeeffe/Projects/ccnz-workforce-planner/scripts"]
 trust_level = "trusted"
 
+[projects."/mnt/c/git/obsidian_vault"]
+trust_level = "trusted"
+
+[projects."/home/finnokeeffe/Projects/dairy-nz/dairynz-dashboards"]
+trust_level = "trusted"
+
 [tui]
 session_picker_view = "dense"
 status_line = ["model-with-reasoning", "current-dir", "weekly-limit", "used-tokens"]
 status_line_use_colors = true
-
-[tui.model_availability_nux]
-"gpt-5.5" = 4
-"gpt-5.6-sol" = 4
-gpt-6-astra = 4
+screen_reader_detection_done = true
 
 [mcp_servers.obsidian]
 command = "npx"
@@ -97,5 +99,15 @@ approval_mode = "approve"
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
 
+[realtime]
+voice = "cove"
+
 [tui.keymap.chat]
 edit_queued_message = "alt-shift-up"
+prompt_stack_back = "alt-shift-down"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 4
+gpt-6-astra = 4
+"gpt-6.1-sol" = 4

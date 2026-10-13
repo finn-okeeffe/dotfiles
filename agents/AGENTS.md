@@ -3,6 +3,8 @@
 ## Environment
 You are in a Windows Subsystem for Linux (WSL) environment. Some windows features (such as access to Microsoft office or PowerShell) can be accessed through powershell, which is in path. For example, `pwsh.exe -c "explorer"`.
 
+Unless stated otherwise, you may assume that you are running in zellij inside zsh, and the terminal being used is Rio (which supports the kitty image protocol).
+
 ## Python
 - Always run python through `uv`, using virtual environments rather than system installations.
 - Do not install any packages without explicit permission from the user. If you need a certain package to perform your task, or to make your task significantly easier, get explicit permission from the user first. If you have explicit permission, you make create a `.venv` folder and run `uv add` or `uv pip install` outside of sharepoint folders.
