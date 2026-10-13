@@ -3,3 +3,4 @@
 /nvim/*.json
 !/nvim/lazy-lock.json
 nvim.log
+/agent-skills/synced/

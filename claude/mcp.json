@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "obsidian": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@bitbonsai/mcpvault@0.12.5", "/home/finnokeeffe/obsidian-vault"]
+    },
+    "openaiDeveloperDocs": {
+      "type": "http",
+      "url": "https://developers.openai.com/mcp"
+    }
+  }
+}

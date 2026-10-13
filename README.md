@@ -39,6 +39,42 @@ New-Item -ItemType Directory -Force -Path $petDestination | Out-Null
 Copy-Item -Path 'codex/pets/rikka/pet.json', 'codex/pets/rikka/spritesheet.webp' -Destination $petDestination -Force
 ```
 
+# Claude Code configuration
+
+Claude Code uses the same instructions and skills as Codex, plus its own files in
+`claude/`. On Linux or WSL, these paths in `~/.claude` link into this repository:
+
+| Link | Target |
+| --- | --- |
+| `~/.claude/CLAUDE.md` | `agents/AGENTS.md` |
+| `~/.claude/skills` | `agent-skills` |
+| `~/.claude/settings.json` | `claude/settings.json` |
+| `~/.claude/statusline.sh` | `claude/statusline.sh` |
+
+`claude/settings.json` sets the model (Opus at max effort), starts sessions in auto
+permission mode, pre-approves the Obsidian `list_directory` and `read_note` tools, and
+runs `claude/statusline.sh`. The status line shows the model and effort, current
+directory, weekly usage limit, and tokens in the context window. It needs `jq`.
+
+Before linking, back up any existing files at those paths and remove them. Then run
+these commands from the repository root:
+
+```sh
+mkdir -p "$HOME/.claude"
+ln -s "$PWD/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
+ln -s "$PWD/agent-skills" "$HOME/.claude/skills"
+ln -s "$PWD/claude/settings.json" "$HOME/.claude/settings.json"
+ln -s "$PWD/claude/statusline.sh" "$HOME/.claude/statusline.sh"
+```
+
+Claude Code keeps user-wide MCP servers in `~/.claude.json`, which also holds login
+and session state, so it cannot be linked. `claude/mcp.json` lists the servers
+instead. Register them after cloning, and again after editing that file:
+
+```sh
+for name in $(jq -r '.mcpServers | keys[]' claude/mcp.json); do claude mcp remove --scope user "$name" 2>/dev/null; claude mcp add-json --scope user "$name" "$(jq -c ".mcpServers[\"$name\"]" claude/mcp.json)"; done
+```
+
 # Yazi clipboard copying in WSL
 
 In Yazi, press `<C-y>` to copy the hovered file to the Windows clipboard. The
