@@ -17,3 +17,6 @@ alias codex='UV_CACHE_DIR=/tmp/codex-uv-cache codex'
 export PATH="$HOME/go/bin:$PATH"
 source <(asana completion zsh)
 asana completion zsh > "${fpath[1]}/_asana"
+
+# Custom internal scripts
+export PATH="$HOME/Projects/scarlatti-tools/bin:$PATH"
