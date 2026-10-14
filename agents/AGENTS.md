@@ -12,6 +12,12 @@ Unless stated otherwise, you may assume that you are running in zellij inside zs
 ## Sharepoint
 Never modify anything in sharepoint (or symlinked to a file or folder in sharepoint) without express user permission. Do not create temporary files, scripts, or audit files in sharepoint unless explicitly to - these should remain outside sharepoint.
 
+## Obsidian
+- My Obsidian vault lives in the `obsidian_vault` folder on Nextcloud (`nc.finnokeeffe.nz`). The Remotely Save plugin syncs it with `~/obsidian-vault` (`/mnt/c/git/obsidian_vault`) on SCANBK24.
+- When the Nextcloud MCP tools (`nc_webdav_*`) are available, read and edit notes through them, with paths starting `obsidian_vault/`. Otherwise use the local `obsidian` MCP server.
+- Do not edit `~/obsidian-vault`, `/mnt/c/git/obsidian_vault` or `C:/Users/FinnO'Keeffe/Nextcloud/obsidian_vault` with file tools.
+- To change an existing note on Nextcloud, read it first and pass its etag as `if_match` when writing. Never force an overwrite without my approval.
+
 ## Artifacts and outputs
 Whenever creating artifacts or outputs - such as a document, presentation, spreadsheet, website, or image, assume the design should follow the Scarlatti design guidelines and use the corresponding skill,unless directed otherwise by the user
 

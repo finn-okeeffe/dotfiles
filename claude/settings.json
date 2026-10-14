@@ -2,8 +2,10 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
-      "mcp__obsidian__list_directory",
-      "mcp__obsidian__read_note",
+      "mcp__claude_ai_Watson-Nextcloud__nc_webdav_list_directory",
+      "mcp__claude_ai_Watson-Nextcloud__nc_webdav_read_file",
+      "mcp__claude_ai_Watson-Nextcloud__nc_webdav_find_by_name",
+      "mcp__claude_ai_Watson-Nextcloud__nc_webdav_search_files",
       "Bash(git push *)",
       "Bash(py-spy dump:*)",
       "Bash(py-spy record:*)"

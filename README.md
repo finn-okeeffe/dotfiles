@@ -52,8 +52,9 @@ Claude Code uses the same instructions and skills as Codex, plus its own files i
 | `~/.claude/statusline.sh` | `claude/statusline.sh` |
 
 `claude/settings.json` sets the model (Opus at max effort), starts sessions in auto
-permission mode, and runs `claude/statusline.sh`. It pre-approves the Obsidian
-`list_directory` and `read_note` tools, `git push`, `py-spy dump` and `py-spy record`.
+permission mode, and runs `claude/statusline.sh`. It pre-approves the Watson-Nextcloud
+connector's `nc_webdav_list_directory`, `nc_webdav_read_file`, `nc_webdav_find_by_name`
+and `nc_webdav_search_files` tools, `git push`, `py-spy dump` and `py-spy record`.
 The status line shows the model and effort, current directory, weekly usage limit, and
 tokens in the context window. It needs `jq`.
 
@@ -75,6 +76,23 @@ instead. Register them after cloning, and again after editing that file:
 ```sh
 for name in $(jq -r '.mcpServers | keys[]' claude/mcp.json); do claude mcp remove --scope user "$name" 2>/dev/null; claude mcp add-json --scope user "$name" "$(jq -c ".mcpServers[\"$name\"]" claude/mcp.json)"; done
 ```
+
+That loop doesn't remove servers that were deleted from `claude/mcp.json`. Remove those
+by name, for example the old local Obsidian server:
+
+```sh
+claude mcp remove --scope user obsidian
+```
+
+## Obsidian vault
+
+The vault lives in the `obsidian_vault` folder on Nextcloud. The Remotely Save plugin
+syncs it with `~/obsidian-vault` on the Windows laptop. Claude reaches it through the
+claude.ai Watson-Nextcloud connector, so it works in cloud sessions while the laptop is
+off; sign in with `/mcp`. Codex still uses the local `obsidian` server in
+`codex/config.toml`. The `obsidian-save-response` skill uploads images with
+`scripts/upload-image-to-nextcloud.sh`, which needs the `NEXTCLOUD_*` variables from
+`.env.example` exported in `~/.env`.
 
 # Yazi clipboard copying in WSL
 
