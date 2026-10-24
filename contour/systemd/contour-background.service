@@ -1,0 +1,6 @@
+[Unit]
+Description=Switch Contour to a random background image
+
+[Service]
+Type=oneshot
+ExecStart=%h/dev/dotfiles/contour/rotate-background.sh

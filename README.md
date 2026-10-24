@@ -111,6 +111,71 @@ Other file extensions print an error instead of copying data. This setup require
 WSL access to `powershell.exe` and `clip.exe`, which are available in a standard WSL
 installation.
 
+# Contour terminal
+
+`contour/contour.yml` mirrors the Rio setup: Gruvbox Dark Hard, Mononoki, 20px
+margins, a maximized frameless window, and zsh launching zellij. Contour is installed
+from Flathub, so it reads its configuration from the Flatpak's own directory and needs
+read access to this repository to follow the link and load background images.
+
+Before linking, back up any existing Contour configuration outside this repository.
+Then run these commands from the repository root:
+
+```sh
+mkdir -p "$HOME/.var/app/org.contourterminal.Contour/config/contour"
+ln -s "$PWD/contour/contour.yml" "$HOME/.var/app/org.contourterminal.Contour/config/contour/contour.yml"
+flatpak override --user --filesystem="$PWD:ro" org.contourterminal.Contour
+mkdir -p "$HOME/.terminfo/c"
+flatpak run --command=cat org.contourterminal.Contour /app/share/terminfo/c/contour > "$HOME/.terminfo/c/contour"
+```
+
+The last two commands install Contour's terminfo entry on the host. Contour sets
+`TERM=contour`, and zsh, zellij, and Neovim run outside the sandbox, where that entry
+is otherwise missing.
+
+## Rotating background images
+
+The background changes to a random image from `contour/backgrounds/` every 30 minutes
+and shortly after login. The colours live in `contour/gruvbox-dark-hard.yml`, not in
+`contour.yml`: `contour/rotate-background.sh` copies them to
+`colorschemes/gruvbox-dark-hard.yml` in the Flatpak's configuration directory, adds the
+chosen image, and touches `contour.yml` so Contour reloads it. Contour shows default
+colours until that file exists, so run the script once when setting up. Then enable
+the timer:
+
+```sh
+contour/rotate-background.sh
+systemctl --user link "$PWD/contour/systemd/contour-background.service" "$PWD/contour/systemd/contour-background.timer"
+systemctl --user enable --now contour-background.timer
+```
+
+Run `contour/rotate-background.sh` to switch image straight away. To change the
+interval, edit `OnUnitActiveSec` in `contour/systemd/contour-background.timer` and run
+`systemctl --user daemon-reload`.
+
+Add or remove images in `contour/backgrounds/` to change the rotation. Each image is
+pre-blended onto `#1d2021` at 2560x1440 so it stays faint behind text; make new ones
+from any picture with `rio/backgrounds/gruvbox-bg.py convert`. Use `--tint shadow
+--strength 5` to darken instead of lighten (text keeps full contrast), or `--color` to
+keep the picture's own muted colours.
+
+## Contour on Windows
+
+`setup.ps1` runs `contour/setup-windows.ps1`, which can also be run on its own. It
+installs Contour from the latest GitHub release if it is missing, then links
+`%LOCALAPPDATA%\contour\contour.yml` to `contour/contour.yml` and
+`%LOCALAPPDATA%\contour\profiles\main.yml` to `contour/windows-profile.yml`. Contour
+layers that profile file over `contour.yml`, swapping the shell for
+`wsl.exe -d FedoraLinux-42 --exec zsh -ilc zellij`; change the distribution name
+there if it differs. Creating the links needs Developer Mode or an elevated
+PowerShell. Any existing real files are kept with a `.backup` suffix.
+
+The script also writes the colour scheme with `contour/rotate-background.ps1` and
+registers a `Contour background` scheduled task that reruns it at logon and every 30
+minutes. Install Mononoki Nerd Font separately. The Windows setup has not been tested
+yet; if a new image does not appear when the task runs, press Ctrl+Shift+P and run
+ReloadConfig, or restart Contour.
+
 # Neovim notebook and plotting support
 
 The Neovim configuration uses `molten.nvim` to run Jupyter code and `image.nvim` to display plot output. `lazy.nvim` installs these plugins, but it does not install their system or Python dependencies.

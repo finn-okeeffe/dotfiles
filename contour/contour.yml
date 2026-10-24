@@ -1,0 +1,83 @@
+# Contour config mirroring rio/config.toml. Anything not set here uses Contour's defaults.
+#
+# On Linux, Contour runs as a Flatpak, so it reads this file through a symlink at
+# ~/.var/app/org.contourterminal.Contour/config/contour/contour.yml and needs
+# read access to this repo: flatpak override --user --filesystem=~/dev/dotfiles:ro org.contourterminal.Contour
+#
+# On Windows, setup-windows.ps1 links it into %LOCALAPPDATA%\contour, and
+# windows-profile.yml replaces the shell below with one that starts WSL.
+
+default_profile: main
+
+# Zellij provides tabs and panes.
+tab_bar_visibility: Never
+theme: dark
+
+# Reload on save, like Rio, and keep this file the only source of truth.
+live_config: true
+gui_config_locked: true
+
+profiles:
+    main:
+        # Start zsh and zellij on the host, outside the Flatpak sandbox.
+        shell: /usr/bin/zsh
+        arguments: ["-ilc", "zellij"]
+        escape_sandbox: true
+
+        maximized: true
+        show_title_bar: false
+
+        # Match Alacritty's 20px padding on every side.
+        margins:
+            horizontal: 20
+            vertical: 20
+
+        status_line:
+            display: none
+
+        cursor:
+            shape: block
+            blinking: false
+
+        font:
+            # Points: 18pt is Rio's 24px at 96 DPI.
+            size: 18
+            builtin_box_drawing: true
+            regular:
+                family: "Mononoki Nerd Font Mono"
+
+        background:
+            opacity: 1.0
+
+        # Not defined in this file, so Contour reads colorschemes/gruvbox-dark-hard.yml beside it.
+        # rotate-background.sh writes that file from gruvbox-dark-hard.yml with a random background.
+        colors: gruvbox-dark-hard
+
+# Defining this list replaces Contour's built-in bindings. Tab, pane and Shift+arrow
+# bindings are left out so those keys reach zellij, zsh and nvim.
+input_mapping:
+    - { mods: [Control, Shift], key: 'C',        action: CopySelection }
+    - { mods: [Control, Shift], key: 'V',        action: PasteClipboard }
+    - { mods: [Control],        key: 'C',        action: CopySelection,   mode: 'Insert|Select' }
+    - { mods: [Control],        key: 'C',        action: CancelSelection, mode: 'Insert|Select' }
+    - { mods: [],               key: 'Escape',   action: CancelSelection, mode: 'Insert|Select' }
+    - { mods: [Control],        key: '=',        action: IncreaseFontSize }
+    - { mods: [Control],        key: '-',        action: DecreaseFontSize }
+    - { mods: [Control],        key: '0',        action: ResetFontSize }
+    - { mods: [Control, Shift], key: 'F',        action: SearchReverse }
+    - { mods: [Control, Shift], key: 'H',        action: NoSearchHighlight }
+    - { mods: [],               key: 'F3',       action: FocusNextSearchMatch,     mode: 'Search' }
+    - { mods: [Shift],          key: 'F3',       action: FocusPreviousSearchMatch, mode: 'Search' }
+    - { mods: [Control, Shift], key: 'U',        action: HintMode }
+    - { mods: [Control, Shift], key: 'N',        action: NewTerminal }
+    - { mods: [Control, Shift], key: ',',        action: OpenConfiguration }
+    - { mods: [Control, Shift], key: 'P',        action: OpenCommandPalette }
+    - { mods: [Alt],            key: 'Enter',    action: ToggleFullscreen }
+    - { mods: [Shift],          key: 'PageUp',   action: ScrollPageUp }
+    - { mods: [Shift],          key: 'PageDown', action: ScrollPageDown }
+    - { mods: [Control],        mouse: Left,      action: FollowHyperlink }
+    - { mods: [],               mouse: Middle,    action: PasteSelection }
+    - { mods: [],               mouse: WheelUp,   action: ScrollUp }
+    - { mods: [],               mouse: WheelDown, action: ScrollDown }
+    - { mods: [Control],        mouse: WheelUp,   action: IncreaseFontSize }
+    - { mods: [Control],        mouse: WheelDown, action: DecreaseFontSize }

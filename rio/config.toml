@@ -8,6 +8,14 @@ mode = "Maximized"
 decorations = "Disabled"
 opacity = 1.0
 
+# Subtle wallpaper, pre-blended onto #1d2021 so opacity 1.0 keeps contrast low.
+# More images: contour/backgrounds/.
+# Regenerate or convert your own image with rio/backgrounds/gruvbox-bg.py.
+# Disabled: rio 0.5.26's Vulkan renderer drew the image over the text (not retested on 0.5.28).
+# [window.background-image]
+# path = "/home/finn/dev/dotfiles/contour/backgrounds/moon-cat.png"
+# opacity = 1.0
+
 [fonts]
 family = "Mononoki Nerd Font Mono"
 size = 24

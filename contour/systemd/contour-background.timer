@@ -1,0 +1,9 @@
+[Unit]
+Description=Rotate the Contour background every 30 minutes
+
+[Timer]
+OnStartupSec=1min
+OnUnitActiveSec=30min
+
+[Install]
+WantedBy=timers.target

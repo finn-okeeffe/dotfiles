@@ -1,0 +1,9 @@
+# Windows overrides for the `main` profile in contour.yml.
+#
+# setup-windows.ps1 links this to %LOCALAPPDATA%\contour\profiles\main.yml. Contour layers
+# a profile side file over the profile of the same name, so everything else in
+# contour.yml still applies.
+#
+# The shell is a command line: Contour appends the profile's existing arguments
+# (-ilc zellij), giving `wsl.exe -d FedoraLinux-42 --exec zsh -ilc zellij`.
+shell: "wsl.exe -d FedoraLinux-42 --exec zsh"
