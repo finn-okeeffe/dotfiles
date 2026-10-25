@@ -35,6 +35,18 @@ vim.opt.scrolloff = 12
  -- use system clipboard instead of vim clipboard system
  vim.opt.clipboard = "unnamedplus"
 
+-- GNOME has no Wayland data-control protocol, so wl-copy opens a hidden window to take
+-- keyboard focus, which can leave the terminal unfocused. xsel goes through XWayland,
+-- which syncs to the Wayland clipboard without taking focus.
+if vim.env.WAYLAND_DISPLAY and (vim.env.XDG_CURRENT_DESKTOP or ""):find("GNOME") and vim.fn.executable("xsel") == 1 then
+  vim.g.clipboard = {
+    name = "xsel",
+    copy = { ["+"] = { "xsel", "--nodetach", "-i", "-b" }, ["*"] = { "xsel", "--nodetach", "-i", "-p" } },
+    paste = { ["+"] = { "xsel", "-o", "-b" }, ["*"] = { "xsel", "-o", "-p" } },
+    cache_enabled = 1,
+  }
+end
+
 -- highlighted line where cusor is
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "both"
