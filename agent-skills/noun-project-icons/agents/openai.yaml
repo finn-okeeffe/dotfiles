@@ -1,0 +1,7 @@
+interface:
+  display_name: "Noun Project Icons"
+  short_description: "Find and download Noun Project icons on Finn's Pro account"
+  default_prompt: "Use $noun-project-icons to find and download suitable icons from the Noun Project."
+
+policy:
+  allow_implicit_invocation: true
