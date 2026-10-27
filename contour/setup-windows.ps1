@@ -6,12 +6,17 @@ $ErrorActionPreference = 'Stop'
 
 $configDir = Join-Path $env:LOCALAPPDATA 'contour'
 
-# Install the latest release from GitHub unless Contour is already installed.
+# Install the latest release from GitHub unless that version or a newer one is already installed.
+# The MSI replaces an older install. winget lags behind GitHub releases, so it is not used here.
 $installed = Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*',
     'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue |
-    Where-Object { $_.DisplayName -like 'Contour*' }
-if (-not $installed) {
-    $release = Invoke-RestMethod 'https://api.github.com/repos/contour-terminal/contour/releases/latest'
+    Where-Object { $_.DisplayName -like 'Contour*' } |
+    ForEach-Object { [version]$_.DisplayVersion } |
+    Sort-Object -Descending | Select-Object -First 1
+$release = Invoke-RestMethod 'https://api.github.com/repos/contour-terminal/contour/releases/latest'
+$latest = [version]$release.tag_name.TrimStart('v')
+if (-not $installed -or $installed -lt $latest) {
+    if ($installed) { Write-Output "Upgrading Contour $installed to $latest." }
     $asset = $release.assets | Where-Object { $_.name -like '*-win64.msi' } | Select-Object -First 1
     $msi = Join-Path $env:TEMP $asset.name
     Invoke-WebRequest $asset.browser_download_url -OutFile $msi

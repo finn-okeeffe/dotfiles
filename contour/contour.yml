@@ -17,6 +17,10 @@ theme: dark
 live_config: true
 gui_config_locked: true
 
+# On by default on Windows since 0.8, which would save window-position.yml beside this file.
+# The window starts maximized anyway.
+remember_window_position: false
+
 profiles:
     main:
         # Start zsh and zellij on the host, outside the Flatpak sandbox.
