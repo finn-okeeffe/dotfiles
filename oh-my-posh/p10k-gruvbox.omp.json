@@ -1,0 +1,150 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 4,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "darkGray",
+          "template": "╭─"
+        },
+        {
+          "type": "os",
+          "style": "plain",
+          "foreground": "lightWhite",
+          "background": "237",
+          "template": " {{ .Icon }} "
+        },
+        {
+          "type": "path",
+          "style": "plain",
+          "foreground": "blue",
+          "background": "237",
+          "options": {
+            "style": "powerlevel",
+            "max_width": 80,
+            "home_icon": "~",
+            "edge_format": "<b><lightBlue>%s</></b>",
+            "gitdir_format": "<b><lightBlue>%s</></b>"
+          },
+          "template": "<darkGray></> {{ if not .Writable }}{{ else if eq .Path \"~\" }}{{ else if hasPrefix \"~\" .Path }}{{ else }}{{ end }} {{ .Path }} "
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "foreground": "lightGreen",
+          "background": "237",
+          "options": {
+            "github_icon": "",
+            "gitlab_icon": "",
+            "bitbucket_icon": "",
+            "git_icon": ""
+          },
+          "template": "<darkGray></> {{ if .UpstreamIcon }}{{ .UpstreamIcon }}{{ else }}{{ end }} {{ if .Detached }}<darkGray>@</>{{ .ShortHash }}{{ else if gt (len .Ref) 32 }} {{ substr 0 12 .Ref }}…{{ substr (sub (len .Ref) 12 | int) (len .Ref) .Ref }}{{ else }} {{ .Ref }}{{ end }}{{ with .Upstream }}{{ $remote := (splitn \"/\" 2 .)._1 }}{{ if and $remote (ne $remote $.Ref) }}<darkGray>:</>{{ $remote }}{{ end }}{{ end }}{{ if regexMatch \"(^|[^[:alnum:]])(wip|WIP)([^[:alnum:]]|$)\" .Commit.Subject }} <lightYellow>wip</>{{ end }}{{ if or .Ahead .Behind }} {{ if .Behind }}⇣{{ .Behind }}{{ end }}{{ if .Ahead }}⇡{{ .Ahead }}{{ end }}{{ end }}{{ if or .PushAhead .PushBehind }} {{ if .PushBehind }}⇠{{ .PushBehind }}{{ end }}{{ if .PushAhead }}⇢{{ .PushAhead }}{{ end }}{{ end }}{{ if .StashCount }} *{{ .StashCount }}{{ end }}{{ if .Merge }} <lightRed>merge</>{{ else if .Rebase }} <lightRed>rebase</>{{ else if .CherryPick }} <lightRed>cherry-pick</>{{ else if .Revert }} <lightRed>revert</>{{ end }}{{ $conflicted := max .Working.Unmerged .Staging.Unmerged }}{{ if $conflicted }} <lightRed>~{{ $conflicted }}</>{{ end }}{{ $staged := add .Staging.Added .Staging.Modified .Staging.Deleted }}{{ if $staged }} <lightYellow>+{{ $staged }}</>{{ end }}{{ $unstaged := add .Working.Modified .Working.Deleted }}{{ if $unstaged }} <lightYellow>!{{ $unstaged }}</>{{ end }}{{ if .Working.Untracked }} <lightBlue>?{{ .Working.Untracked }}</>{{ end }} "
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "237",
+          "template": ""
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "filler": "<darkGray>─</>",
+      "overflow": "hide",
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "237",
+          "template": ""
+        },
+        {
+          "type": "status",
+          "style": "plain",
+          "foreground": "lightGreen",
+          "background": "237",
+          "foreground_templates": ["{{ if gt .Code 0 }}lightRed{{ end }}"],
+          "options": {
+            "always_enabled": true
+          },
+          "template": " {{ if gt .Code 0 }}{{ .Code }} ✘{{ else }}✔{{ end }} "
+        },
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "foreground": "white",
+          "background": "237",
+          "options": {
+            "threshold": 3000
+          },
+          "template": "<darkGray></> {{ $t := div .Ms 1000 }}{{ $d := div $t 86400 }}{{ $h := mod (div $t 3600) 24 }}{{ $m := mod (div $t 60) 60 }}{{ if $d }}{{ $d }}d {{ end }}{{ if or $d $h }}{{ $h }}h {{ end }}{{ if or $d $h $m }}{{ $m }}m {{ end }}{{ mod $t 60 }}s  "
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "lightCyan",
+          "background": "237",
+          "template": "{{ if .Env.POSH_JOBS }}<darkGray></>  {{ end }}"
+        },
+        {
+          "type": "python",
+          "style": "plain",
+          "foreground": "lightCyan",
+          "background": "237",
+          "options": {
+            "display_mode": "environment",
+            "fetch_version": false
+          },
+          "template": "{{ if .Venv }}<darkGray></> {{ .Venv }}  {{ end }}"
+        },
+        {
+          "type": "session",
+          "style": "plain",
+          "foreground": "white",
+          "background": "237",
+          "template": "{{ if or .SSHSession .Root }}<darkGray></> {{ if .Root }}<b><lightYellow>{{ .UserName }}@{{ .HostName }}</></b>{{ else }}{{ .UserName }}@{{ .HostName }}{{ end }} {{ end }}"
+        },
+        {
+          "type": "time",
+          "style": "plain",
+          "foreground": "lightBlue",
+          "background": "237",
+          "options": {
+            "time_format": "15:04:05"
+          },
+          "template": "<darkGray></> {{ .CurrentDate | date .Format }}  "
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "darkGray",
+          "template": "╰─"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "lightGreen",
+          "foreground_templates": ["{{ if gt .Code 0 }}lightRed{{ end }}"],
+          "template": "❯"
+        }
+      ]
+    }
+  ]
+}

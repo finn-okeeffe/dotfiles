@@ -176,6 +176,34 @@ minutes. Install Mononoki Nerd Font separately. The Windows setup has not been t
 yet; if a new image does not appear when the task runs, press Ctrl+Shift+P and run
 ReloadConfig, or restart Contour.
 
+# PowerShell prompt
+
+`powershell/profile.ps1` is a shared profile for Windows PowerShell 5.1 and PowerShell 7.
+It starts oh-my-posh with `oh-my-posh/p10k-gruvbox.omp.json`, which lays the prompt out
+like the zsh Powerlevel10k setup in `zsh/p10k-gruvbox.zsh`: OS icon, directory and Git
+status on the left, then exit status, command time (3 seconds or more), running jobs,
+Python environment, user@host (only when elevated or over SSH) and time on the right,
+with `╰─❯` on the second line. It also holds the yazi `y`, `ycli` and `yint` functions
+and the Chocolatey tab completion. The prompt needs a Nerd Font in the terminal.
+
+`setup.ps1` runs `powershell/setup-windows.ps1`, which can also be run on its own. It
+installs oh-my-posh with winget if it is missing, then appends a loader to the
+current-user profiles for both shells. The loader sets `$DotfilesDir` to the
+repository root that the script ran from and runs `powershell/profile.ps1` as a script
+block, because execution policy refuses to dot-source an unsigned script from a
+`\\wsl.localhost` path. The same policy blocks running the setup script from there, so
+start it with `-ExecutionPolicy Bypass`:
+
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File \\wsl.localhost\FedoraLinux-42\home\finnokeeffe\git\dotfiles\powershell\setup-windows.ps1
+```
+
+Opening PowerShell starts WSL if it is not already running, since the profile is read
+from the WSL file system. When Documents is in OneDrive, the script also pins
+`Documents\PowerShell\Modules` so OneDrive keeps the files downloaded; cloud-only module
+files fail to load, which shows up as PowerToys' CommandNotFound module reporting that
+`Microsoft.WinGet.Client` is not loaded.
+
 # Neovim notebook and plotting support
 
 The Neovim configuration uses `molten.nvim` to run Jupyter code and `image.nvim` to display plot output. `lazy.nvim` installs these plugins, but it does not install their system or Python dependencies.
