@@ -33,7 +33,7 @@
             "edge_format": "<b><lightBlue>%s</></b>",
             "gitdir_format": "<b><lightBlue>%s</></b>"
           },
-          "template": "<darkGray></> {{ if not .Writable }}{{ else if eq .Path \"~\" }}{{ else if hasPrefix \"~\" .Path }}{{ else }}{{ end }} {{ .Path }} "
+          "template": "<darkGray></> {{ $home := lower (replace \"\\\\\" \"/\" .Env.USERPROFILE) }}{{ $here := lower (replace \"\\\\\" \"/\" .Location) }}{{ if not .Writable }}{{ else if eq $here $home }}{{ else if hasPrefix (print $home \"/\") $here }}{{ else }}{{ end }} {{ .Path }} "
         },
         {
           "type": "git",
