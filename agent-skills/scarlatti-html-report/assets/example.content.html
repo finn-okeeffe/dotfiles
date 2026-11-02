@@ -1,0 +1,121 @@
+<p class="label">Evaluation report</p>
+<h1>Survey completion fell after the reminder schedule changed</h1>
+<p class="lede">Moving the second reminder from day 7 to day 14 cost about nine percentage points of completion. Restoring the day 7 reminder is the simplest fix.</p>
+<p class="meta">Prepared for Example Trust · 3 November 2026 · Draft for discussion</p>
+
+<section class="summary">
+  <h2>Key findings</h2>
+  <ul>
+    <li>Completion fell from 62% in 2025 to 53% in 2026.</li>
+    <li>The drop is concentrated among respondents who had not opened the first email.</li>
+    <li>Respondents who started the survey finished it at the same rate in both years.</li>
+  </ul>
+</section>
+
+<div class="stats">
+  <p><b>53%</b> completion in 2026, down from 62%</p>
+  <p><b>1,840</b> invitations sent</p>
+  <p><b>$4.20</b> cost per completed response</p>
+</div>
+
+<h2>What changed</h2>
+<p>In 2026 the second reminder moved from day 7 to day 14. Everything else, including the invitation wording and incentive, stayed the same.</p>
+
+<figure class="chart" data-type="column" data-suffix="%" data-highlight="2026">
+  <figcaption>Completion rate by survey year</figcaption>
+  <table>
+    <tr><th>Year</th><th>Completion</th></tr>
+    <tr><td>2023</td><td>58</td></tr>
+    <tr><td>2024</td><td>61</td></tr>
+    <tr><td>2025</td><td>62</td></tr>
+    <tr><td>2026</td><td>53</td></tr>
+  </table>
+  <p class="note">Source: survey platform exports, 2023–2026.</p>
+</figure>
+
+<h2>Where responses were lost</h2>
+<p>Cumulative responses tracked closely until day 7, when the 2025 reminder went out.</p>
+
+<figure class="chart" data-type="line" data-suffix="%">
+  <figcaption>Cumulative completion by days since invitation</figcaption>
+  <table>
+    <tr><th>Day</th><th>2025</th><th>2026</th></tr>
+    <tr><td>1</td><td>18</td><td>17</td></tr>
+    <tr><td>3</td><td>29</td><td>28</td></tr>
+    <tr><td>7</td><td>38</td><td>37</td></tr>
+    <tr><td>10</td><td>52</td><td>41</td></tr>
+    <tr><td>14</td><td>58</td><td>44</td></tr>
+    <tr><td>21</td><td>62</td><td>53</td></tr>
+  </table>
+</figure>
+
+<div class="columns">
+  <div>
+    <h3>Respondents by region</h3>
+    <figure class="chart" data-type="bar">
+      <figcaption>Completed responses by region, 2026</figcaption>
+      <table>
+        <tr><th>Region</th><th>Responses</th></tr>
+        <tr><td>Auckland</td><td>312</td></tr>
+        <tr><td>Waikato</td><td>164</td></tr>
+        <tr><td>Canterbury</td><td>198</td></tr>
+        <tr><td>Wellington</td><td>143</td></tr>
+        <tr><td>Rest of New Zealand</td><td>158</td></tr>
+      </table>
+    </figure>
+  </div>
+  <div>
+    <h3>Device used</h3>
+    <figure class="chart" data-type="donut" data-suffix="%">
+      <figcaption>Share of completed responses by device</figcaption>
+      <table>
+        <tr><th>Device</th><th>Share</th></tr>
+        <tr><td>Phone</td><td>64</td></tr>
+        <tr><td>Laptop or desktop</td><td>31</td></tr>
+        <tr><td>Tablet</td><td>5</td></tr>
+      </table>
+    </figure>
+  </div>
+</div>
+
+<figure class="chart" data-type="stacked-bar" data-suffix="%">
+  <figcaption>Status of invitations at close, by year</figcaption>
+  <table>
+    <tr><th>Year</th><th>Completed</th><th>Started, not finished</th><th>Not started</th></tr>
+    <tr><td>2025</td><td>62</td><td>9</td><td>29</td></tr>
+    <tr><td>2026</td><td>53</td><td>8</td><td>39</td></tr>
+  </table>
+</figure>
+
+<h2>How the effect was estimated</h2>
+<p>We compared completion in each year with a logistic model, controlling for region and device. The estimated reminder effect is the coefficient \(\beta_1\) in</p>
+$$\operatorname{logit}\Pr(\text{complete}_i) = \beta_0 + \beta_1\,\text{late}_i + \boldsymbol{\gamma}^\top \mathbf{x}_i$$
+<p>where \(\text{late}_i = 1\) for 2026 invitations. The fitted \(\hat\beta_1 = -0.37\) (95% CI \(-0.52\) to \(-0.22\)) corresponds to a fall of about nine percentage points at the 2025 baseline.</p>
+
+<table>
+  <caption>Model estimates</caption>
+  <thead>
+    <tr><th>Term</th><th>Estimate</th><th>Std. error</th><th>Odds ratio</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Late reminder (2026)</td><td>−0.37</td><td>0.08</td><td>0.69</td></tr>
+    <tr><td>Phone</td><td>0.12</td><td>0.07</td><td>1.13</td></tr>
+    <tr><td>Auckland</td><td>0.05</td><td>0.09</td><td>1.05</td></tr>
+  </tbody>
+</table>
+
+<aside class="callout">
+  <h3>Limitation</h3>
+  <p>The two years differ in more than the reminder date. Event timing and media coverage could account for part of the gap.</p>
+</aside>
+
+<h2>Recommended next steps</h2>
+<ol>
+  <li>Restore the day 7 reminder for the 2027 round.</li>
+  <li>Test a third reminder at day 14 with half the sample.</li>
+  <li>Report completion weekly during fieldwork so problems show up earlier.</li>
+</ol>
+
+<aside class="callout good">
+  <p><strong>Decision needed:</strong> approve the 2027 reminder schedule by 1 December 2026.</p>
+</aside>

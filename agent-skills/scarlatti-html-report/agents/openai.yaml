@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scarlatti HTML Report"
+  short_description: "Write one-page Scarlatti HTML reports from a fixed template"
+  default_prompt: "Use $scarlatti-html-report to write a Scarlatti-styled one-page HTML report."
+
+policy:
+  allow_implicit_invocation: true
