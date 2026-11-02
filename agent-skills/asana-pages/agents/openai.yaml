@@ -1,0 +1,7 @@
+interface:
+  display_name: "Asana Pages"
+  short_description: "Read and edit Asana Pages through Finn's signed-in Chrome"
+  default_prompt: "Use $asana-pages to read or edit an Asana page."
+
+policy:
+  allow_implicit_invocation: true
