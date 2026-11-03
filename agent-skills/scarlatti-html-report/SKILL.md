@@ -26,7 +26,7 @@ You write the content. The template handles every formatting decision. Do not wr
 
 5. Give the user the `.html` path. Edit the `.content.html` file and rebuild for any changes; never edit the built file.
 
-The built page loads KaTeX and the Roboto heading font from public CDNs. Without internet access the page still works, but equations show as raw LaTeX and headings fall back to a system font.
+When the content contains maths, the build embeds KaTeX and its fonts, adding about 630 KB. Equations then display offline and in browsers that block external scripts. Only the Roboto heading font comes from the internet, and headings fall back to a system font without it.
 
 ## Page structure
 
@@ -155,4 +155,5 @@ The template applies the Scarlatti visual rules, so you do not need to read the 
 - `assets/report.js`: numbering, contents list, table alignment, charts and maths.
 - `assets/scarlatti-primary-tagline-right.png`: an unmodified copy of the logo from `scarlatti-designed-outputs`.
 - `assets/example.content.html`: a full example that uses every building block.
+- `assets/katex/`: KaTeX 0.16.11 (MIT licence) from the npm package: `katex.min.js`, `auto-render.min.js`, `katex.min.css` and the WOFF2 fonts.
 - `scripts/build.py`: builds the self-contained page. It uses only the Python standard library.

@@ -27,7 +27,9 @@ from pathlib import Path
 
 SKILL_DIR = Path(__file__).resolve().parent.parent
 ASSETS = SKILL_DIR / "assets"
+KATEX = ASSETS / "katex"
 CHART_TYPES = {"column", "bar", "stacked-column", "stacked-bar", "line", "donut"}
+MATH_DELIMITERS = re.compile(r"\\\(|\\\[|\$\$")
 
 
 class Checker(HTMLParser):
@@ -91,6 +93,19 @@ def data_uri(path: Path) -> str:
     return f"data:{mime};base64,{base64.b64encode(path.read_bytes()).decode('ascii')}"
 
 
+def katex_blocks() -> tuple[str, str]:
+    """KaTeX stylesheet with its WOFF2 fonts embedded, and its two scripts."""
+    css = (KATEX / "katex.min.css").read_text(encoding="utf-8")
+
+    def font(match: re.Match) -> str:
+        return f'src:url({data_uri(KATEX / "fonts" / (match.group(1) + ".woff2"))}) format("woff2")'
+
+    # keep only the WOFF2 source of each @font-face, as a data URI
+    css = re.sub(r'src:url\(fonts/([\w-]+)\.woff2\) format\("woff2"\)(?:,url\([^)]*\) format\("[^"]*"\))*', font, css)
+    js = "\n".join((KATEX / name).read_text(encoding="utf-8") for name in ("katex.min.js", "auto-render.min.js"))
+    return f"<style>\n{css}\n</style>", f"<script>\n{js}\n</script>"
+
+
 def inline_images(content: str, base: Path, warnings: list[str]) -> str:
     def swap(match: re.Match) -> str:
         quote, src = match.group(2), match.group(3)
@@ -147,6 +162,9 @@ def main() -> int:
 
     page = (ASSETS / "template.html").read_text(encoding="utf-8")
     page = page.replace("{{TITLE}}", html.escape(title))
+    katex_css, katex_js = katex_blocks() if MATH_DELIMITERS.search(content) else ("", "")
+    page = page.replace("{{KATEX_CSS}}", katex_css)
+    page = page.replace("{{KATEX_JS}}", katex_js)
     page = page.replace("{{LOGO}}", data_uri(ASSETS / "scarlatti-primary-tagline-right.png"))
     page = page.replace("{{CSS}}", (ASSETS / "report.css").read_text(encoding="utf-8"))
     page = page.replace("{{JS}}", (ASSETS / "report.js").read_text(encoding="utf-8"))
